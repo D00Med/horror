@@ -5,6 +5,185 @@ end
 
 --nodes
 
+minetest.register_node("horror:gargoyle2", {
+	description = "Small gargoyle",
+	tiles = {
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png"
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {cracky=3},
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4375, -0.5, -0.4375, 0.4375, -0.125, 0.4375}, -- NodeBox21
+			{-0.25, -0.125, -0.125, 0.25, 0.25, 0.3125}, -- NodeBox22
+			{-0.25, 0.25, -0.125, 0.25, 0.3125, 0.25}, -- NodeBox23
+			{-0.1875, 0.3125, -0.125, 0.1875, 0.375, 0.1875}, -- NodeBox24
+			{-0.125, 0.25, -0.3125, 0.125, 0.5, 0}, -- NodeBox25
+			{-0.0625, 0.25, -0.375, 0.0625, 0.4375, -0.3125}, -- NodeBox26
+			{-0.0625, 0.1875, -0.4375, 0.0625, 0.375, -0.375}, -- NodeBox27
+			{0.125, -0.125, -0.1875, 0.25, 0.125, -0.0625}, -- NodeBox28
+			{-0.25, -0.125, -0.1875, -0.125, 0.125, -0.0625}, -- NodeBox29
+			{-0.25, -0.125, -0.25, -0.125, -0.0625, -0.1875}, -- NodeBox30
+			{0.125, -0.125, -0.25, 0.25, -0.0625, -0.1875}, -- NodeBox31
+			{-0.1875, 0.375, 0.0625, -0.0625, 0.5, 0.5}, -- NodeBox32
+			{0.0625, 0.375, 0.0625, 0.1875, 0.5, 0.5}, -- NodeBox33
+			{0.0625, 0.3125, 0.25, 0.1875, 0.5, 0.5}, -- NodeBox34
+			{-0.1875, 0.3125, 0.25, -0.0625, 0.5, 0.5}, -- NodeBox35
+			{-0.1875, 0.25, 0.3125, -0.0625, 0.5, 0.5}, -- NodeBox36
+			{0.0625, 0.25, 0.3125, 0.1875, 0.5, 0.5}, -- NodeBox37
+			{0.0625, 0.125, 0.375, 0.1875, 0.5, 0.5}, -- NodeBox38
+			{-0.1875, 0.125, 0.375, -0.0625, 0.5, 0.5}, -- NodeBox39
+			{0.0625, 0, 0.4375, 0.1875, 0.5, 0.5}, -- NodeBox40
+			{-0.1875, 0, 0.4375, -0.0625, 0.5, 0.5}, -- NodeBox41
+		}
+	}
+})
+
+minetest.register_node("horror:candlestick", {
+	description = "Candlestick",
+	tiles = {
+		"horror_candlestick_top.png",
+		"horror_metal.png",
+		"horror_candlestick_side.png",
+		"horror_candlestick_side.png",
+		"horror_candlestick_side.png",
+		"horror_candlestick_side.png"
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {cracky=1, oddly_breakable_by_hand=1},
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.25, -0.5, -0.25, 0.25, -0.4375, 0.25}, -- NodeBox1
+			{-0.0625, -0.4375, -0.0625, 0.0625, 0.5, 0.0625}, -- NodeBox2
+			{-0.125, 0, 0, 0.125, 0.0625, 0.0625}, -- NodeBox4
+			{-0.25, -0.0625, 0, -0.125, 0, 0.0625}, -- NodeBox5
+			{0.125, -0.0625, 0, 0.25, 0, 0.0625}, -- NodeBox6
+			{-0.3125, 0, 0, -0.25, 0.0625, 0.0625}, -- NodeBox7
+			{0.25, 0, 0, 0.3125, 0.0625, 0.0625}, -- NodeBox8
+			{-0.4375, -0.0625, -0.0625, -0.3125, 0.375, 0.0625}, -- NodeBox9
+			{0.3125, -0.0625, -0.0625, 0.4375, 0.375, 0.0625}, -- NodeBox10
+			{-0.125, -0.25, -0.125, 0.125, -0.125, 0.125}, -- NodeBox11
+			{-0.125, 0.125, -0.0625, 0.125, 0.1875, 0.0625}, -- NodeBox16
+		}
+	}
+})
+
+minetest.register_node("horror:stone_corner", {
+	description = "Stone corner",
+	tiles = {
+		"default_stone.png",
+		"default_stone.png",
+		"default_stone.png",
+		"default_stone.png",
+		"default_stone.png",
+		"default_stone.png"
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.0625, -0.5, 0.4375, 0.0625, 0.4375, 0.5}, -- NodeBox1
+			{-0.0625, 0.4375, -0.5, 0.0625, 0.5, 0.5}, -- NodeBox4
+			{-0.0625, 0.0625, 0.3125, 0.0625, 0.3125, 0.4375}, -- NodeBox5
+			{-0.0625, 0.3125, 0.125, 0.0625, 0.4375, 0.3125}, -- NodeBox6
+			{-0.0625, 0.375, -0.4375, 0.0625, 0.4375, -0.0625}, -- NodeBox7
+			{-0.0625, -0.4375, 0.375, 0.0625, -0.125, 0.4375}, -- NodeBox8
+			{-0.0625, 0.25, 0.25, 0.0625, 0.3125, 0.3125}, -- NodeBox9
+			{-0.0625, 0.25, -0.125, 0.0625, 0.3125, 0.1875}, -- NodeBox10
+			{-0.0625, -0.1875, 0.25, 0.0625, 0.1875, 0.3125}, -- NodeBox11
+			{-0.0625, 0.125, -0.0625, 0.0625, 0.25, 0.125}, -- NodeBox12
+			{-0.0625, -0.0625, 0.125, 0.0625, 0.125, 0.25}, -- NodeBox13
+			{-0.0625, 0.0625, 0.0625, 0.0625, 0.125, 0.125}, -- NodeBox14
+			{-0.0625, -0.3125, 0.3125, 0.0625, -0.125, 0.375}, -- NodeBox15
+			{-0.0625, 0.3125, -0.3125, 0.0625, 0.375, -0.0625}, -- NodeBox16
+		}
+	},
+	groups = {cracky=3},
+})
+
+minetest.register_node("horror:wood_corner", {
+	description = "Wooden corner",
+	tiles = {
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png"
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.0625, -0.5, 0.4375, 0.0625, 0.4375, 0.5}, -- NodeBox1
+			{-0.0625, 0.4375, -0.5, 0.0625, 0.5, 0.5}, -- NodeBox4
+			{-0.0625, 0.0625, 0.3125, 0.0625, 0.3125, 0.4375}, -- NodeBox5
+			{-0.0625, 0.3125, 0.125, 0.0625, 0.4375, 0.3125}, -- NodeBox6
+			{-0.0625, 0.375, -0.4375, 0.0625, 0.4375, -0.0625}, -- NodeBox7
+			{-0.0625, -0.4375, 0.375, 0.0625, -0.125, 0.4375}, -- NodeBox8
+			{-0.0625, 0.25, 0.25, 0.0625, 0.3125, 0.3125}, -- NodeBox9
+			{-0.0625, 0.25, -0.125, 0.0625, 0.3125, 0.1875}, -- NodeBox10
+			{-0.0625, -0.1875, 0.25, 0.0625, 0.1875, 0.3125}, -- NodeBox11
+			{-0.0625, 0.125, -0.0625, 0.0625, 0.25, 0.125}, -- NodeBox12
+			{-0.0625, -0.0625, 0.125, 0.0625, 0.125, 0.25}, -- NodeBox13
+			{-0.0625, 0.0625, 0.0625, 0.0625, 0.125, 0.125}, -- NodeBox14
+			{-0.0625, -0.3125, 0.3125, 0.0625, -0.125, 0.375}, -- NodeBox15
+			{-0.0625, 0.3125, -0.3125, 0.0625, 0.375, -0.0625}, -- NodeBox16
+		}
+	},
+	groups = {choppy=2, oddly_breakable_by_hand=1},
+})
+
+minetest.register_node("horror:obsidian_corner", {
+	description = "Obsidian corner",
+	tiles = {
+		"default_obsidian.png",
+		"default_obsidian.png",
+		"default_obsidian.png",
+		"default_obsidian.png",
+		"default_obsidian.png",
+		"default_obsidian.png"
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.0625, -0.5, 0.4375, 0.0625, 0.4375, 0.5}, -- NodeBox1
+			{-0.0625, 0.4375, -0.5, 0.0625, 0.5, 0.5}, -- NodeBox4
+			{-0.0625, 0.0625, 0.3125, 0.0625, 0.3125, 0.4375}, -- NodeBox5
+			{-0.0625, 0.3125, 0.125, 0.0625, 0.4375, 0.3125}, -- NodeBox6
+			{-0.0625, 0.375, -0.4375, 0.0625, 0.4375, -0.0625}, -- NodeBox7
+			{-0.0625, -0.4375, 0.375, 0.0625, -0.125, 0.4375}, -- NodeBox8
+			{-0.0625, 0.25, 0.25, 0.0625, 0.3125, 0.3125}, -- NodeBox9
+			{-0.0625, 0.25, -0.125, 0.0625, 0.3125, 0.1875}, -- NodeBox10
+			{-0.0625, -0.1875, 0.25, 0.0625, 0.1875, 0.3125}, -- NodeBox11
+			{-0.0625, 0.125, -0.0625, 0.0625, 0.25, 0.125}, -- NodeBox12
+			{-0.0625, -0.0625, 0.125, 0.0625, 0.125, 0.25}, -- NodeBox13
+			{-0.0625, 0.0625, 0.0625, 0.0625, 0.125, 0.125}, -- NodeBox14
+			{-0.0625, -0.3125, 0.3125, 0.0625, -0.125, 0.375}, -- NodeBox15
+			{-0.0625, 0.3125, -0.3125, 0.0625, 0.375, -0.0625}, -- NodeBox16
+		}
+	},
+	groups = {cracky=3},
+})
+
 minetest.register_node("horror:sunorb", {
 	description = "sun orb",
 	drawtype = "plantlike",
@@ -47,7 +226,7 @@ minetest.register_node("horror:fire", {
 	drawtype = "plantlike",
 	sunlight_propagates = true,
 	paramtype = "light",
-	light_source = 50,
+	light_source = 40,
 	walkable = false,
 	damage_per_second = 2,
 	tiles = {{
@@ -58,6 +237,33 @@ minetest.register_node("horror:fire", {
 	inventory_image = "horror_fire_inv.png",
 	wield_image = "horror_fire_inv.png",
 	groups = {crumbly=1},
+})
+
+minetest.register_node("horror:gfire", {
+	description = "decorative green fire",
+	drawtype = "plantlike",
+	sunlight_propagates = true,
+	paramtype = "light",
+	light_source = 30,
+	walkable = false,
+	damage_per_second = 2,
+	tiles = {{
+		name = "horror_gfire.png",
+		animation = {type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = 1.00},
+	}}
+,
+	inventory_image = "horror_gfire_inv.png",
+	wield_image = "horror_gfire_inv.png",
+	groups = {crumbly=1, leafdecay=1, not_in_creative_inventory=1},
+})
+
+minetest.register_abm({
+	nodenames = {"horror:gfire"},
+	interval = 5,
+	chance = 1,
+	action = function(pos)
+		minetest.remove_node(pos)
+	end
 })
 
 minetest.register_abm({
@@ -113,12 +319,18 @@ minetest.register_node("horror:spiderweb", {
 	drawtype = "plantlike",
 	sunlight_propagates = true,
 	paramtype = "light",
+	liquid_viscosity = 8,
+	liquidtype = "source",
+	liquid_alternative_flowing = "horror:spiderweb",
+	liquid_alternative_source = "horror:spiderweb",
+	liquid_renewable = false,
+	liquid_range = 0,
 	walkable = false,
 	tiles = {
 		"horror_spiderweb.png"
 	},
 	inventory_image = "horror_spiderweb.png",
-	groups = {snappy=1, oddly_breakable_by_hand=1}
+	groups = {snappy=1, oddly_breakable_by_hand=1, liquid=3}
 })
 
 minetest.register_node("horror:lantern", {
@@ -456,6 +668,8 @@ minetest.register_node("horror:chain", {
 		}
 	}
 })
+
+--Vignette overlay from Vignette mod by TriBlade9(license MIT)
 
 minetest.register_on_joinplayer(function(player)
 	minetest.after(0,function()
