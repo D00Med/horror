@@ -226,7 +226,7 @@ minetest.register_node("horror:fire", {
 	drawtype = "plantlike",
 	sunlight_propagates = true,
 	paramtype = "light",
-	light_source = 50,
+	light_source = 40,
 	walkable = false,
 	damage_per_second = 2,
 	tiles = {{
@@ -237,6 +237,33 @@ minetest.register_node("horror:fire", {
 	inventory_image = "horror_fire_inv.png",
 	wield_image = "horror_fire_inv.png",
 	groups = {crumbly=1},
+})
+
+minetest.register_node("horror:gfire", {
+	description = "decorative green fire",
+	drawtype = "plantlike",
+	sunlight_propagates = true,
+	paramtype = "light",
+	light_source = 30,
+	walkable = false,
+	damage_per_second = 2,
+	tiles = {{
+		name = "horror_gfire.png",
+		animation = {type = "vertical_frames", aspect_w = 32, aspect_h = 32, length = 1.00},
+	}}
+,
+	inventory_image = "horror_gfire_inv.png",
+	wield_image = "horror_gfire_inv.png",
+	groups = {crumbly=1, leafdecay=1, not_in_creative_inventory=1},
+})
+
+minetest.register_abm({
+	nodenames = {"horror:gfire"},
+	interval = 5,
+	chance = 1,
+	action = function(pos)
+		minetest.remove_node(pos)
+	end
 })
 
 minetest.register_abm({
@@ -292,12 +319,18 @@ minetest.register_node("horror:spiderweb", {
 	drawtype = "plantlike",
 	sunlight_propagates = true,
 	paramtype = "light",
+	liquid_viscosity = 8,
+	liquidtype = "source",
+	liquid_alternative_flowing = "horror:spiderweb",
+	liquid_alternative_source = "horror:spiderweb",
+	liquid_renewable = false,
+	liquid_range = 0,
 	walkable = false,
 	tiles = {
 		"horror_spiderweb.png"
 	},
 	inventory_image = "horror_spiderweb.png",
-	groups = {snappy=1, oddly_breakable_by_hand=1}
+	groups = {snappy=1, oddly_breakable_by_hand=1, liquid=3}
 })
 
 minetest.register_node("horror:lantern", {
@@ -635,6 +668,8 @@ minetest.register_node("horror:chain", {
 		}
 	}
 })
+
+--Vignette overlay from Vignette mod by TriBlade9(license MIT)
 
 minetest.register_on_joinplayer(function(player)
 	minetest.after(0,function()
