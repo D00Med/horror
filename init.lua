@@ -3,6 +3,15 @@ if minetest.get_modpath("mobs") then
 dofile(minetest.get_modpath("horror").."/mobs.lua")
 end
 
+--stair
+stairs.register_stair_and_slab("oldstone", "horror:stone",
+		{snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		{"horror_stone.png"},
+		"Old Stone Stair",
+		"Old Stone Slab",
+		default.node_sound_wood_defaults())
+
+
 --nodes
 
 minetest.register_node("horror:gargoyle2", {
@@ -77,6 +86,41 @@ minetest.register_node("horror:candlestick", {
 			{-0.125, 0.125, -0.0625, 0.125, 0.1875, 0.0625}, -- NodeBox16
 		}
 	}
+})
+
+minetest.register_node("horror:oldstone_corner", {
+	description = "Old Stone corner",
+	tiles = {
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png",
+		"horror_stone.png"
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.0625, -0.5, 0.4375, 0.0625, 0.4375, 0.5}, -- NodeBox1
+			{-0.0625, 0.4375, -0.5, 0.0625, 0.5, 0.5}, -- NodeBox4
+			{-0.0625, 0.0625, 0.3125, 0.0625, 0.3125, 0.4375}, -- NodeBox5
+			{-0.0625, 0.3125, 0.125, 0.0625, 0.4375, 0.3125}, -- NodeBox6
+			{-0.0625, 0.375, -0.4375, 0.0625, 0.4375, -0.0625}, -- NodeBox7
+			{-0.0625, -0.4375, 0.375, 0.0625, -0.125, 0.4375}, -- NodeBox8
+			{-0.0625, 0.25, 0.25, 0.0625, 0.3125, 0.3125}, -- NodeBox9
+			{-0.0625, 0.25, -0.125, 0.0625, 0.3125, 0.1875}, -- NodeBox10
+			{-0.0625, -0.1875, 0.25, 0.0625, 0.1875, 0.3125}, -- NodeBox11
+			{-0.0625, 0.125, -0.0625, 0.0625, 0.25, 0.125}, -- NodeBox12
+			{-0.0625, -0.0625, 0.125, 0.0625, 0.125, 0.25}, -- NodeBox13
+			{-0.0625, 0.0625, 0.0625, 0.0625, 0.125, 0.125}, -- NodeBox14
+			{-0.0625, -0.3125, 0.3125, 0.0625, -0.125, 0.375}, -- NodeBox15
+			{-0.0625, 0.3125, -0.3125, 0.0625, 0.375, -0.0625}, -- NodeBox16
+		}
+	},
+	groups = {cracky=3},
 })
 
 minetest.register_node("horror:stone_corner", {
@@ -594,13 +638,52 @@ minetest.register_node("horror:tombstone", {
 })
 
 minetest.register_node("horror:mud", {
-	description = "mud",
+	description = "solid mud",
 	tiles = {
 		"horror_mud.png"
 	},
 	paramtype2 = "facedir",
 	paramtype = "light",
 	groups = {crumbly=1, falling_node=1}
+})
+
+minetest.register_node("horror:bush", {
+	description = "bush",
+	drawtype = "allfaces",
+	tiles = {
+		"default_leaves_simple.png^default_leaves.png"
+	},
+	paramtype2 = "facedir",
+	paramtype = "light",
+	groups = {snappy=1}
+})
+
+
+minetest.register_node("horror:stone", {
+	description = "Old Stone",
+	tiles = {
+		"horror_stone.png"
+	},
+	paramtype2 = "facedir",
+	paramtype = "light",
+	groups = {cracky=1}
+})
+
+minetest.register_node("horror:mud_liquid", {
+	description = "mud",
+	liquid_viscosity = 8,
+	liquidtype = "source",
+	liquid_alternative_flowing = "horror:mud_liquid",
+	liquid_alternative_source = "horror:mud_liquid",
+	liquid_renewable = false,
+	liquid_range = 0,
+	walkable = false,
+	tiles = {
+		"horror_mud.png"
+	},
+	paramtype2 = "facedir",
+	paramtype = "light",
+	groups = {crumbly=1, liquid=1, falling_node=1}
 })
 
 minetest.register_node("horror:spikes", {
@@ -688,6 +771,7 @@ end)
 
 minetest.register_node("horror:vines", {
 	description = "vines",
+	climbable = true,
 	tiles = {
 		"blank.png",
 		"blank.png",
@@ -1280,3 +1364,215 @@ minetest.register_node("horror:speaker", {
 })
 
 --All nodeboxes were generated using NodeBoxEditor v0.8.1 Windows
+
+--crafting
+minetest.register_craft({
+	output = 'horror:lantern',
+	recipe = {
+		{'default:glass'},
+		{'default:torch'},
+		{'default:glass'},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:candlestick',
+	recipe = {
+		{'', 'default:torch', ''},
+		{'default:torch', 'group:stick', 'default:torch'},
+		{'', 'group:stick', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:candle',
+	recipe = {
+		{'', '', ''},
+		{'', 'default:torch', ''},
+		{'', 'default:copper_ingot', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:cleaver',
+	recipe = {
+		{'group:stick', 'default:steel_ingot', ''},
+		{'group:stick', 'default:steel_ingot', ''},
+		{'group:stick', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:knife',
+	recipe = {
+		{'', 'group:stick', ''},
+		{'', 'default:steel_ingot', ''},
+		{'', 'default:steel_ingot', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:eye_jar',
+	recipe = {
+		{'', '', ''},
+		{'', 'default:glass', ''},
+		{'', 'default:glass', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:roach_spawner',
+	recipe = {
+		{'group:wood', 'group:wood', ''},
+		{'group:wood', '', ''},
+		{'group:wood', 'group:wood', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:radio',
+	recipe = {
+		{'group:stick', '', ''},
+		{'default:steel_ingot', 'default:steel_ingot', ''},
+		{'default:steel_ingot', 'default:steel_ingot', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:clock',
+	recipe = {
+		{'', '', ''},
+		{'', 'group:stick', ''},
+		{'', 'default:wood', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:tombstone',
+	recipe = {
+		{'', '', ''},
+		{'', 'default:stone', ''},
+		{'', 'default:stone', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:cross',
+	recipe = {
+		{'', 'default:stone', ''},
+		{'default:stone', 'default:stone', 'default:stone'},
+		{'', 'default:stone', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:obsidian_corner 4',
+	recipe = {
+		{'', '', ''},
+		{'default:obsidian', 'default:obsidian', ''},
+		{'default:obsidian', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:wood_corner 4',
+	recipe = {
+		{'', '', ''},
+		{'default:wood', 'default:wood', ''},
+		{'default:wood', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:stone_corner 4',
+	recipe = {
+		{'', '', ''},
+		{'default:stone', 'default:stone', ''},
+		{'default:stone', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:oldstone_corner 4',
+	recipe = {
+		{'', '', ''},
+		{'horror:stone', 'horror:stone', ''},
+		{'horror:stone', '', ''},
+	}
+})
+
+minetest.register_craft({
+	type = 'cooking',
+	output = 'default:coal_lump',
+	recipe = 'default:tree',
+})
+
+minetest.register_craft({
+	type = 'cooking',
+	output = 'horror:stone',
+	recipe = 'default:stone',
+})
+
+minetest.register_craft({
+	output = 'horror:shelf',
+	recipe = {
+		{'', '', ''},
+		{'default:wood', 'default:wood', ''},
+		{'group:stick', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:gargoyle2',
+	recipe = {
+		{'', '', ''},
+		{'', 'default:stone', ''},
+		{'default:stone', 'default:stone', 'default:stone'},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:stand',
+	recipe = {
+		{'default:stone', 'default:stone', 'default:stone'},
+		{'', 'default:stone', ''},
+		{'default:stone', 'default:stone', 'default:stone'},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:gargoyle_fountain',
+	recipe = {
+		{'', '', ''},
+		{'default:stone', 'bucket:bucket_water', ''},
+		{'default:stone', '', ''},
+	}
+})
+
+
+minetest.register_craft({
+	output = 'horror:lavastone 10',
+	recipe = {
+		{'', '', ''},
+		{'', 'bucket:bucket_lava', ''},
+		{'', 'default:stone', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:chain 6',
+	recipe = {
+		{'', 'default:steel_ingot', ''},
+		{'', 'default:steel_ingot', ''},
+		{'', 'default:steel_ingot', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:vines 2',
+	recipe = {
+		{'', '', ''},
+		{'default:leaves', 'default:leaves', ''},
+		{'', '', ''},
+	}
+})
