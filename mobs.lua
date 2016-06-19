@@ -1,4 +1,6 @@
 
+
+
 mobs:register_mob("horror:centipede_body", {
 	type = "npc",
 	attacks_monsters = true,
@@ -17,14 +19,9 @@ mobs:register_mob("horror:centipede_body", {
 	blood_texture = "mobs_blood.png",
 	visual_size = {x=2, y=2},
 	makes_footstep_sound = false,
-	walk_velocity = 1.3,
-	run_velocity = 1.3,
-	jump = false,
-	do_custom = function(self)
-		minetest.after(4, function()
-		self.object:remove()
-		end)
-	end,
+	walk_velocity = 1.5,
+	run_velocity = 3.5,
+	jump = true,
 	water_damage = 0,
 	lava_damage = 2,
 	light_damage = 0,
@@ -43,7 +40,8 @@ mobs:register_mob("horror:centipede_body", {
 	},
 })
 
-mobs:register_mob("horror:centipede", {
+--Improvements thanks to TenPlus1 and Byakuren
+mobs:register_mob("horror:centipede_head", {
 	type = "monster",
 	passive = false,
 	reach = 1,
@@ -70,14 +68,42 @@ mobs:register_mob("horror:centipede", {
 		random = "mobs_spider",
 		attack = "mobs_spider",
 	},
-	do_custom = function(self, dtime)
-		local pos = self.object:getpos()
-		minetest.env:add_entity(pos, "horror:centipede_body")
+	do_custom = function(self)
 
-		minetest.after(0.25, function()
-		minetest.env:add_entity(pos, "horror:centipede_body")
-		end)
-	end,
+            if not self.centipede then
+                self.centipede = true -- flip switch so this part is done only once
+
+                -- get head position and define a few temp variables
+                local pos = self.object:getpos()
+                local obj, obj2, ent
+
+                -- add body and make it follow head
+                obj = minetest.add_entity({x=pos.x+1, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj:get_luaentity()
+                ent.following = self.object
+
+                -- add body and make it follow previous body segment
+                obj2 = minetest.add_entity({x=pos.x+2, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj2:get_luaentity()
+                ent.following = obj
+                -- add body and make it follow previous body segment
+                obj3 = minetest.add_entity({x=pos.x+3, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj3:get_luaentity()
+                ent.following = obj2
+                -- add body and make it follow previous body segment
+                obj4 = minetest.add_entity({x=pos.x+4, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj4:get_luaentity()
+                ent.following = obj3
+                -- add body and make it follow previous body segment
+                obj5 = minetest.add_entity({x=pos.x+5, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj5:get_luaentity()
+                ent.following = obj4
+                -- add body and make it follow previous body segment
+                obj6 = minetest.add_entity({x=pos.x+6, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj6:get_luaentity()
+                ent.following = obj5
+            end
+    end,
 	water_damage = 0,
 	lava_damage = 2,
 	light_damage = 0,
@@ -96,9 +122,9 @@ mobs:register_mob("horror:centipede", {
 	},
 })
 
-mobs:register_spawn("horror:centipede", {"horror:mud","default:dirt_with_dry_grass"}, 20, 10, 15000, 2, 31000)
+mobs:register_spawn("horror:centipede_head", {"horror:mud","default:dirt_with_dry_grass"}, 20, 0, 15000, 2, 31000)
 
-mobs:register_egg("horror:centipede", "Centipede", "default_dirt.png", 1)
+mobs:register_egg("horror:centipede_head", "Centipede", "default_dirt.png", 1)
 
 
 mobs:register_mob("horror:spider", {
@@ -149,7 +175,7 @@ mobs:register_mob("horror:spider", {
 	},
 })
 
-mobs:register_spawn("horror:spider", {"default:leaves","default:stone"}, 20, 10, 15000, 2, 31000)
+mobs:register_spawn("horror:spider", {"default:leaves","default:stone"}, 20, 0, 15000, 2, 31000)
 
 mobs:register_egg("horror:spider", "6-legged Spider", "default_obsidian.png", 1)
 
@@ -206,11 +232,10 @@ mobs:register_mob("horror:dragon", {
    },
 })
 
-mobs:spawn_specific("horror:dragon", {"air"}, {"default:stone"}, 20, 10, 300, 15000, 2, -100, 11000)
+mobs:spawn_specific("horror:dragon", {"air"}, {"default:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
    
 mobs:register_egg("horror:dragon", "Zombie Dragon", "horror_orb.png", 1)
 
---Thanks to Tenplus1
 mobs:register_arrow("horror:fireball", {
    visual = "sprite",
    visual_size = {x = 0.5, y = 0.5},
@@ -276,8 +301,8 @@ mobs:register_mob("horror:skull", {
 			{x=0, y=0, z=0}, --maxvel
 			{x=0,y=1,z=0}, --minacc
 			{x=0.5,y=1,z=0.5}, --maxacc
-			0.2, --minexptime
-			0.4, --maxexptime
+			1, --minexptime
+			2, --maxexptime
 			3, --minsize
 			5, --maxsize
 			false, --collisiondetection
@@ -304,7 +329,7 @@ mobs:register_mob("horror:skull", {
    },
 })
 
-mobs:spawn_specific("horror:skull", {"air"}, {"default:stone"}, 20, 10, 300, 15000, 2, -100, 11000)
+mobs:spawn_specific("horror:skull", {"air"}, {"default:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
    
 mobs:register_egg("horror:skull", "Flying Skull", "horror_gfire_inv.png", 1)
 
@@ -335,7 +360,7 @@ mobs:register_mob("horror:mothman", {
    do_custom = function(self)
    local apos = self.object:getpos()
 		local part = minetest.add_particlespawner(
-			12, --amount
+			1, --amount
 			0.3, --time
 			{x=apos.x-0.3, y=apos.y-0.3, z=apos.z-0.3}, --minpos
 			{x=apos.x+0.3, y=apos.y-0.3, z=apos.z+0.3}, --maxpos
@@ -371,7 +396,7 @@ mobs:register_mob("horror:mothman", {
    },
 })
 
-mobs:spawn_specific("horror:mothman", {"air"}, {"horror:lantern"}, 20, 10, 300, 15000, 2, -100, 11000)
+mobs:spawn_specific("horror:mothman", {"air"}, {"horror:lantern"}, 20, 0, 300, 15000, 2, -100, 11000)
    
 mobs:register_egg("horror:mothman", "Mothman", "horror_orb.png", 1)
 
@@ -419,7 +444,7 @@ mobs:register_mob("horror:manticore", {
    },
 })
 
-mobs:spawn_specific("horror:manticore", {"default:dirt"}, {"default:stone"}, 20, 10, 300, 15000, 2, -100, 11000)
+mobs:spawn_specific("horror:manticore", {"default:dirt_with_grass"}, {"default:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
    
 mobs:register_egg("horror:manticore", "Manticore", "default_dirt.png", 1)
 
@@ -466,7 +491,7 @@ mobs:register_mob("horror:demon", {
    },
 })
 
-mobs:spawn_specific("horror:demon", {"default:dirt_with_grass"}, {"default:lava_source"}, 20, 10, 300, 15000, 2, -100, 11000)
+mobs:spawn_specific("horror:demon", {"default:dirt_with_grass"}, {"default:lava_source"}, 20, 0, 300, 15000, 2, -100, 11000)
    
 mobs:register_egg("horror:demon", "Demon", "default_dirt.png", 1)
 
@@ -510,7 +535,7 @@ mobs:register_mob("horror:armour", {
    },
 })
 
-mobs:spawn_specific("horror:armor", {"default:cobblestone"}, {"default:stone_brick"}, 20, 10, 300, 15000, 2, -100, 11000)
+mobs:spawn_specific("horror:armor", {"default:cobblestone"}, {"default:stone_brick"}, 20, 0, 300, 15000, 2, -100, 11000)
    
 mobs:register_egg("horror:armour", "Axe Armour", "default_stone.png", 1)
 
@@ -555,6 +580,6 @@ mobs:register_mob("horror:sam", {
    },
 })
 
-mobs:spawn_specific("horror:sam", {"default:cobblestone"}, {"default:stone_brick"}, 20, 10, 300, 15000, 2, -100, 11000)
+mobs:spawn_specific("horror:sam", {"default:cobblestone"}, {"default:stone_brick"}, 20, 0, 300, 15000, 2, -100, 11000)
    
 mobs:register_egg("horror:sam", "Sam Head", "default_brick.png", 1)
