@@ -498,6 +498,53 @@ mobs:spawn_specific("horror:manticore", {"default:dirt_with_grass"}, {"default:s
    
 mobs:register_egg("horror:manticore", "Manticore", "default_dirt.png", 1)
 
+mobs:register_mob("horror:pinky", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 8,
+   reach = 4,
+   attack_type = "dogfight",
+   hp_min = 30,
+   hp_max = 45,
+   armor = 80,
+   collisionbox = {-0.8, -0, -0.8, 0.8, 1.9, 0.8},
+   visual = "mesh",
+   mesh = "pinky.b3d",
+   textures = {
+      {"pinky.png"},
+   },
+   blood_texture = "mobs_blood.png",
+   visual_size = {x=3, y=3},
+   makes_footstep_sound = true,
+   walk_velocity = 2,
+   run_velocity = 4,
+   jump = true,
+   drops = {
+      {name = "horror:flesh", chance = 1, min = 1, max = 1},
+   },
+   water_damage = 0,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 20,
+   animation = {
+      speed_normal = 20,
+      speed_run = 30,
+      walk_start = 1,
+      walk_end = 20,
+      stand_start = 20,
+      stand_end = 40,
+      run_start = 1,
+      run_end = 20,
+      punch_start = 40,
+      punch_end = 60,
+   },
+})
+
+mobs:spawn_specific("horror:pinky", {"default:dirt_with_grass"}, {"nether:sand"}, 20, 0, 300, 15000, 2, -100, 11000)
+   
+mobs:register_egg("horror:pinky", "Pinky", "horror_flesh.png", 1)
+
 mobs:register_mob("horror:demon", {
    type = "monster",
    passive = false,
