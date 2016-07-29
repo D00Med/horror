@@ -333,6 +333,56 @@ mobs:spawn_specific("horror:skull", {"air"}, {"default:stone"}, 20, 0, 300, 1500
    
 mobs:register_egg("horror:skull", "Flying Skull", "horror_gfire_inv.png", 1)
 
+mobs:register_mob("horror:mogall", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 8,
+   reach = 3,
+   attack_type = "dogfight",
+   shoot_interval = 2.5,
+   arrow = "horror:fireball",
+   shoot_offset = 1,
+   hp_min = 30,
+   hp_max = 45,
+   armor = 80,
+   collisionbox = {-0.3, -0, -0.3, 0.3, 1, 0.3},
+   visual = "mesh",
+   mesh = "mogall.b3d",
+   textures = {
+      {"mogall.png"},
+   },
+   blood_texture = "mobs_blood.png",
+   visual_size = {x=4, y=4},
+   makes_footstep_sound = true,
+   walk_velocity = 1,
+   run_velocity = 2,
+   jump = true,
+   fly = true,
+   fall_speed = 0,
+   stepheight = 1.5,
+   water_damage = 2,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 30,
+   animation = {
+      speed_normal = 5,
+      speed_run = 6,
+      walk_start = 20,
+      walk_end = 60,
+      stand_start = 1,
+      stand_end = 20,
+      run_start = 20,
+      run_end = 60,
+      punch_start = 20,
+      punch_end = 60,
+   },
+})
+
+mobs:spawn_specific("horror:mogall", {"air"}, {"horror:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
+   
+mobs:register_egg("horror:mogall", "Mogall", "horror_stone.png", 1)
+
 
 mobs:register_mob("horror:mothman", {
    type = "monster",
