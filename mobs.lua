@@ -704,7 +704,7 @@ mobs:register_mob("horror:birdie", {
    jump = true,
    water_damage = 0,
    lava_damage = 0,
-   light_damage = 1,
+   light_damage = 0,
    view_range = 20,
    animation = {
       speed_normal = 10,
