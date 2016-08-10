@@ -43,7 +43,6 @@ mobs:register_mob("horror:centipede_body", {
 --Improvements thanks to TenPlus1 and Byakuren
 mobs:register_mob("horror:centipede_head", {
 	type = "monster",
-	passive = false,
 	reach = 1,
 	damage = 2,
 	attack_type = "dogfight",
@@ -122,7 +121,7 @@ mobs:register_mob("horror:centipede_head", {
 	},
 })
 
-mobs:register_spawn("horror:centipede_head", {"horror:mud","default:dirt_with_dry_grass"}, 20, 0, 15000, 2, 31000)
+mobs:register_spawn("horror:centipede_head", {"horror:mud","default:dirt_with_dry_grass"}, 20, 0, 1500, 2, 31000)
 
 mobs:register_egg("horror:centipede_head", "Centipede", "default_dirt.png", 1)
 
@@ -130,11 +129,11 @@ mobs:register_egg("horror:centipede_head", "Centipede", "default_dirt.png", 1)
 mobs:register_mob("horror:spider", {
 	type = "monster",
 	passive = false,
-	reach = 1,
+	reach = 2,
 	damage = 2,
 	attack_type = "dogfight",
-	hp_min = 12,
-	hp_max = 22,
+	hp_min = 32,
+	hp_max = 42,
 	armor = 130,
 	collisionbox = {-0.6, -0.6, -0.5, 0.5, 0.6, 0.5},
 	visual = "mesh",
@@ -145,22 +144,22 @@ mobs:register_mob("horror:spider", {
 	blood_texture = "mobs_blood.png",
 	visual_size = {x=4, y=4},
 	makes_footstep_sound = true,
-	walk_velocity = 2,
-	run_velocity = 3,
+	walk_velocity = 2.5,
+	run_velocity = 3.1,
 	sounds = {
 		random = "mobs_spider",
 		attack = "mobs_spider",
 	},
 	jump = true,
 	drops = {
-		{name = "mobs:meat_raw", chance = 1, min = 1, max = 1},
+		{name = "mobs:meat_raw", chance = 10, min = 1, max = 1},
 	},
 	water_damage = 0,
 	lava_damage = 2,
 	light_damage = 0,
-	replace_rate = 10,
+	replace_rate = 20,
 	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "air"},
-	replace_with = "horror:spiderweb",
+	replace_with = "horror:spiderweb_decaying",
 	view_range = 14,
 	animation = {
 		speed_normal = 10,
@@ -179,6 +178,112 @@ mobs:register_spawn("horror:spider", {"default:leaves","default:stone"}, 20, 0, 
 
 mobs:register_egg("horror:spider", "6-legged Spider", "default_obsidian.png", 1)
 
+mobs:register_mob("horror:ghost", {
+	type = "monster",
+	passive = false,
+	reach = 2,
+	damage = 2,
+	attack_type = "dogfight",
+	hp_min = 32,
+	hp_max = 42,
+	armor = 130,
+	collisionbox = {-0.4, 0, -0.5, 0.5, 1.5, 0.5},
+	visual = "mesh",
+	mesh = "ghost.b3d",
+	textures = {
+		{"horror_ghost.png"},
+	},
+	blood_texture = "mobs_blood.png",
+	visual_size = {x=4, y=4.6},
+	makes_footstep_sound = false,
+	walk_velocity = 1,
+	run_velocity = 2.1,
+	sounds = {
+		random = "mobs_oerkki",
+		attack = "mobs_oerkki",
+	},
+	jump = true,
+	drops = {
+		{name = "farming:cotton", chance = 10, min = 1, max = 1},
+	},
+	water_damage = 0,
+	lava_damage = 2,
+	light_damage = 1,
+	view_range = 5,
+	animation = {
+		speed_normal = 10,
+		speed_run = 15,
+		walk_start = 1,
+		walk_end = 20,
+		run_start = 30,
+		run_end = 50,
+		stand_start = 1,
+		stand_end = 2,
+		punch_start = 50,
+		punch_end = 70,
+
+	},
+})
+
+mobs:register_spawn("horror:ghost", {"default:snowblock","default:sand"}, 20, 0, 15000, 2, 31000)
+
+mobs:register_egg("horror:ghost", "Ghost", "default_snow.png", 1)
+
+mobs:register_mob("horror:cyberdemon", {
+	type = "monster",
+	passive = false,
+	reach = 3,
+	damage = 2,
+	attack_type = "shoot",
+   shoot_interval = 3.5,
+   arrow = "horror:rocket",
+   shoot_offset = 0,
+	hp_min = 102,
+	hp_max = 112,
+	armor = 130,
+	collisionbox = {-0.7, 0, -0.7, 0.7, 5, 0.7},
+	visual = "mesh",
+	mesh = "cyberdemon.b3d",
+	textures = {
+		{"horror_cyberdemon.png"},
+	},
+	blood_texture = "mobs_blood.png",
+	visual_size = {x=2, y=2},
+	makes_footstep_sound = true,
+	walk_velocity = 1,
+	run_velocity = 2.1,
+	sounds = {
+		random = "mobs_stone_monster",
+		attack = "mobs_stone_monster",
+	},
+	jump = true,
+	drops = {
+		{name = "default:mese", chance = 1, min = 1, max = 1},
+		{name = "mobs:meat_raw", chance = 1, min = 3, max = 5},
+	},
+	water_damage = 0,
+	lava_damage = 0,
+	light_damage = 0,
+	view_range = 15,
+	animation = {
+		speed_normal = 10,
+		speed_run = 15,
+		walk_start = 20,
+		walk_end = 40,
+		run_start = 20,
+		run_end = 40,
+		stand_start = 64,
+		stand_end = 80,
+		shoot_start = 1,
+		shoot_end = 15,
+
+	},
+})
+
+mobs:register_spawn("horror:cyberdemon", {"nether:stone","default:dirt_with_grass"}, 20, 0, 20000, 2, 31000)
+
+mobs:register_egg("horror:cyberdemon", "Cyberdemon", "wool_red.png", 1)
+
 
 mobs:register_mob("horror:dragon", {
    type = "monster",
@@ -187,11 +292,11 @@ mobs:register_mob("horror:dragon", {
    damage = 8,
    reach = 3,
    attack_type = "dogshoot",
-   shoot_interval = 2.5,
+   shoot_interval = 3.5,
    arrow = "horror:fireball",
    shoot_offset = 1,
-   hp_min = 30,
-   hp_max = 45,
+   hp_min = 50,
+   hp_max = 85,
    armor = 80,
    collisionbox = {-0.6, -0.9, -0.6, 0.6, 0.6, 0.6},
    visual = "mesh",
@@ -232,7 +337,7 @@ mobs:register_mob("horror:dragon", {
    },
 })
 
-mobs:spawn_specific("horror:dragon", {"air"}, {"default:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:dragon", {"default:pine_needles",}, 20, 0, 15000, 200, 31000)
    
 mobs:register_egg("horror:dragon", "Zombie Dragon", "horror_orb.png", 1)
 
@@ -243,6 +348,33 @@ mobs:register_arrow("horror:fireball", {
    velocity = 8,
    tail = 1, -- enable tail
    tail_texture = "horror_steam.png",
+
+   hit_player = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 8},
+      }, nil)
+   end,
+   
+   hit_mob = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 8},
+      }, nil)
+   end,
+
+   hit_node = function(self, pos, node)
+      self.object:remove()
+   end,
+})
+
+mobs:register_arrow("horror:rocket", {
+   visual = "sprite",
+   visual_size = {x = 0.5, y = 0.5},
+   textures = {"horror_rocket.png"},
+   velocity = 8,
+   tail = 1, -- enable tail
+   tail_texture = "horror_rocket_smoke.png",
 
    hit_player = function(self, player)
       player:punch(self.object, 1.0, {
@@ -329,7 +461,7 @@ mobs:register_mob("horror:skull", {
    },
 })
 
-mobs:spawn_specific("horror:skull", {"air"}, {"default:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:skull", {"fire:basic_flame","default:leaves"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:skull", "Flying Skull", "horror_gfire_inv.png", 1)
 
@@ -379,9 +511,59 @@ mobs:register_mob("horror:mogall", {
    },
 })
 
-mobs:spawn_specific("horror:mogall", {"air"}, {"horror:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:mogall", {"default:jungleleaves",}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:mogall", "Mogall", "horror_stone.png", 1)
+
+-- mobs:register_mob("horror:shadow", {
+   -- type = "monster",
+   -- passive = false,
+   -- attacks_monsters = true,
+   -- damage = 3,
+   -- reach = 3,
+   -- attack_type = "dogfight",
+   -- shoot_interval = 2.5,
+   -- arrow = "horror:fireball",
+   -- shoot_offset = 1,
+   -- hp_min = 30,
+   -- hp_max = 45,
+   -- armor = 80,
+   -- collisionbox = {-0.3, -0, -0.3, 0.3, 1, 0.3},
+   -- visual = "mesh",
+   -- mesh = "shadow.b3d",
+   -- textures = {
+      -- {"horror_shadow.png"},
+   -- },
+   -- blood_texture = "mobs_blood.png",
+   -- visual_size = {x=4, y=4},
+   -- makes_footstep_sound = true,
+   -- walk_velocity = 1,
+   -- run_velocity = 2,
+   -- jump = true,
+   -- fly = true,
+   -- fall_speed = 0,
+   -- stepheight = 1.5,
+   -- water_damage = 2,
+   -- lava_damage = 0,
+   -- light_damage = 0,
+   -- view_range = 30,
+   -- animation = {
+      -- speed_normal = 5,
+      -- speed_run = 6,
+      -- walk_start = 2,
+      -- walk_end = 19,
+      -- stand_start = 2,
+      -- stand_end = 19,
+      -- run_start = 2,
+      -- run_end = 19,
+      -- punch_start = 2,
+      -- punch_end = 19,
+   -- },
+-- })
+
+-- mobs:register_spawn("horror:shadow", {"default:snow", "default:pine_needles"}, 20, 0, 15000, 2, 31000)
+   
+-- mobs:register_egg("horror:shadow", "Shadow elemental", "default_obsidian.png", 1)
 
 
 mobs:register_mob("horror:mothman", {
@@ -446,7 +628,7 @@ mobs:register_mob("horror:mothman", {
    },
 })
 
-mobs:spawn_specific("horror:mothman", {"air"}, {"horror:lantern"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:mothman", {"horror:lantern", "default:aspen_leaves"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:mothman", "Mothman", "horror_orb.png", 1)
 
@@ -455,11 +637,11 @@ mobs:register_mob("horror:manticore", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 8,
+   damage = 4,
    reach = 4,
    attack_type = "dogfight",
-   hp_min = 30,
-   hp_max = 45,
+   hp_min = 40,
+   hp_max = 55,
    armor = 80,
    collisionbox = {-0.5, -0.5, -0.6, 0.6, 0.6, 0.6},
    visual = "mesh",
@@ -494,19 +676,63 @@ mobs:register_mob("horror:manticore", {
    },
 })
 
-mobs:spawn_specific("horror:manticore", {"default:dirt_with_grass"}, {"default:stone"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:manticore", {"default:dirt_with_grass","default:mossycobble"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:manticore", "Manticore", "default_dirt.png", 1)
+
+mobs:register_mob("horror:birdie", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 3,
+   reach = 2,
+   attack_type = "dogfight",
+   hp_min = 30,
+   hp_max = 45,
+   armor = 80,
+   collisionbox = {-0.5, -0, -0.6, 0.6, 1.6, 0.6},
+   visual = "mesh",
+   mesh = "birdie.b3d",
+   textures = {
+      {"birdie.png"},
+   },
+   blood_texture = "mobs_blood.png",
+   visual_size = {x=3, y=3},
+   makes_footstep_sound = true,
+   walk_velocity = 1,
+   run_velocity = 2,
+   jump = true,
+   water_damage = 0,
+   lava_damage = 0,
+   light_damage = 1,
+   view_range = 20,
+   animation = {
+      speed_normal = 10,
+      speed_run = 20,
+      walk_start = 42,
+      walk_end = 62,
+      stand_start = 1,
+      stand_end = 11,
+      run_start = 42,
+      run_end = 62,
+      punch_start = 20,
+      punch_end = 35,
+   },
+})
+
+mobs:register_spawn("horror:birdie", {"default:dirt_with_grass","default:dirt_with_dry_grass"}, 20, 0, 15000, 2, 31000)
+   
+mobs:register_egg("horror:birdie", "Birdie", "default_dirt.png", 1)
 
 mobs:register_mob("horror:pinky", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 8,
+   damage = 1,
    reach = 4,
    attack_type = "dogfight",
-   hp_min = 30,
-   hp_max = 45,
+   hp_min = 70,
+   hp_max = 85,
    armor = 80,
    collisionbox = {-0.8, -0, -0.8, 0.8, 1.9, 0.8},
    visual = "mesh",
@@ -541,7 +767,7 @@ mobs:register_mob("horror:pinky", {
    },
 })
 
-mobs:spawn_specific("horror:pinky", {"default:dirt_with_grass"}, {"nether:sand"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:pinky", {"default:sandstone_brick","nether:stone"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:pinky", "Pinky", "horror_flesh.png", 1)
 
@@ -549,7 +775,7 @@ mobs:register_mob("horror:demon", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 8,
+   damage = 6,
    reach = 4,
    attack_type = "dogfight",
    hp_min = 30,
@@ -588,7 +814,7 @@ mobs:register_mob("horror:demon", {
    },
 })
 
-mobs:spawn_specific("horror:demon", {"default:dirt_with_grass"}, {"default:lava_source"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:demon", {"default:stone","default:lava_flowing"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:demon", "Demon", "default_dirt.png", 1)
 
@@ -601,7 +827,7 @@ mobs:register_mob("horror:armour", {
    attack_type = "dogfight",
    hp_min = 30,
    hp_max = 45,
-   armor = 80,
+   armor = 180,
    collisionbox = {-0.3, -1, -0.3, 0.3, 1, 0.3},
    visual = "mesh",
    mesh = "armour.b3d",
@@ -632,7 +858,7 @@ mobs:register_mob("horror:armour", {
    },
 })
 
-mobs:spawn_specific("horror:armor", {"default:cobblestone"}, {"default:stone_brick"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:armour", {"default:mossycobble","default:sandstone_brick"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:armour", "Axe Armour", "default_stone.png", 1)
 
@@ -677,6 +903,6 @@ mobs:register_mob("horror:sam", {
    },
 })
 
-mobs:spawn_specific("horror:sam", {"default:cobblestone"}, {"default:stone_brick"}, 20, 0, 300, 15000, 2, -100, 11000)
+mobs:register_spawn("horror:sam", {"default:mossycobble","default:sandstone_brick"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:sam", "Sam Head", "default_brick.png", 1)
