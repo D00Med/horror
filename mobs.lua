@@ -206,9 +206,9 @@ mobs:register_mob("horror:ghost", {
 	drops = {
 		{name = "farming:cotton", chance = 10, min = 1, max = 1},
 	},
-	water_damage = 0,
+	water_damage = 2,
 	lava_damage = 2,
-	light_damage = 1,
+	light_damage = 0,
 	view_range = 5,
 	animation = {
 		speed_normal = 10,
