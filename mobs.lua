@@ -280,7 +280,7 @@ mobs:register_mob("horror:cyberdemon", {
 	},
 })
 
-mobs:register_spawn("horror:cyberdemon", {"nether:stone","default:dirt_with_grass"}, 20, 0, 20000, 2, 31000)
+mobs:register_spawn("horror:cyberdemon", {"nether:stone","default:dirt_with_grass"}, 20, 0, 35000, 2, 31000)
 
 mobs:register_egg("horror:cyberdemon", "Cyberdemon", "wool_red.png", 1)
 
@@ -352,19 +352,73 @@ mobs:register_arrow("horror:fireball", {
    hit_player = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
-         damage_groups = {fleshy = 8},
+         damage_groups = {fleshy = 3},
       }, nil)
    end,
    
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
-         damage_groups = {fleshy = 8},
+         damage_groups = {fleshy = 3},
       }, nil)
    end,
 
    hit_node = function(self, pos, node)
       self.object:remove()
+   end,
+})
+
+mobs:register_arrow("horror:fireball_2", {
+   visual = "sprite",
+   visual_size = {x = 1, y = 1},
+   textures = {"horror_fireshot.png"},
+   velocity = 8,
+   tail = 0, -- enable tail
+   tail_texture = "horror_steam.png",
+
+   hit_player = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 2},
+      }, nil)
+   end,
+   
+   hit_mob = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 2},
+      }, nil)
+   end,
+
+   hit_node = function(self, pos, node)
+      self.object:remove()
+   end,
+})
+
+mobs:register_arrow("horror:fireball_3", {
+   visual = "sprite",
+   visual_size = {x = 1, y = 1},
+   textures = {"horror_fireshot.png"},
+   velocity = 3,
+   tail = 1, -- enable tail
+   tail_texture = "horror_flame2.png",
+
+   hit_player = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 2},
+      }, nil)
+   end,
+   
+   hit_mob = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 2},
+      }, nil)
+   end,
+
+   hit_node = function(self, pos, node)
+      mobs:explosion(pos, 1, 1, 1)
    end,
 })
 
@@ -379,14 +433,14 @@ mobs:register_arrow("horror:rocket", {
    hit_player = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
-         damage_groups = {fleshy = 8},
+         damage_groups = {fleshy = 3},
       }, nil)
    end,
    
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
-         damage_groups = {fleshy = 8},
+         damage_groups = {fleshy = 3},
       }, nil)
    end,
 
@@ -515,55 +569,74 @@ mobs:register_spawn("horror:mogall", {"default:jungleleaves",}, 20, 0, 15000, 2,
    
 mobs:register_egg("horror:mogall", "Mogall", "horror_stone.png", 1)
 
--- mobs:register_mob("horror:shadow", {
-   -- type = "monster",
-   -- passive = false,
-   -- attacks_monsters = true,
-   -- damage = 3,
-   -- reach = 3,
-   -- attack_type = "dogfight",
-   -- shoot_interval = 2.5,
-   -- arrow = "horror:fireball",
-   -- shoot_offset = 1,
-   -- hp_min = 30,
-   -- hp_max = 45,
-   -- armor = 80,
-   -- collisionbox = {-0.3, -0, -0.3, 0.3, 1, 0.3},
-   -- visual = "mesh",
-   -- mesh = "shadow.b3d",
-   -- textures = {
-      -- {"horror_shadow.png"},
-   -- },
-   -- blood_texture = "mobs_blood.png",
-   -- visual_size = {x=4, y=4},
-   -- makes_footstep_sound = true,
-   -- walk_velocity = 1,
-   -- run_velocity = 2,
-   -- jump = true,
-   -- fly = true,
-   -- fall_speed = 0,
-   -- stepheight = 1.5,
-   -- water_damage = 2,
-   -- lava_damage = 0,
-   -- light_damage = 0,
-   -- view_range = 30,
-   -- animation = {
-      -- speed_normal = 5,
-      -- speed_run = 6,
-      -- walk_start = 2,
-      -- walk_end = 19,
-      -- stand_start = 2,
-      -- stand_end = 19,
-      -- run_start = 2,
-      -- run_end = 19,
-      -- punch_start = 2,
-      -- punch_end = 19,
-   -- },
--- })
+mobs:register_mob("horror:shadow", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 3,
+   reach = 3,
+   attack_type = "dogfight",
+   shoot_interval = 2.5,
+   arrow = "horror:fireball",
+   shoot_offset = 1,
+   hp_min = 30,
+   hp_max = 45,
+   armor = 80,
+   collisionbox = {-0.3, -0, -0.3, 0.3, 1, 0.3},
+   visual = "mesh",
+   mesh = "shadow.b3d",
+   textures = {
+      {"blank.png"},
+   },
+   blood_texture = "mobs_blood.png",
+   visual_size = {x=4, y=4},
+   makes_footstep_sound = true,
+   walk_velocity = 1,
+   run_velocity = 2,
+   jump = true,
+   fly = true,
+   fall_speed = 0,
+   stepheight = 1.5,
+   water_damage = 2,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 30,
+   do_custom = function(self)
+   local apos = self.object:getpos()
+		local part = minetest.add_particlespawner(
+			1, --amount
+			0.3, --time
+			{x=apos.x-0.3, y=apos.y+0.3, z=apos.z-0.3}, --minpos
+			{x=apos.x+0.3, y=apos.y+0.3, z=apos.z+0.3}, --maxpos
+			{x=-0, y=-0, z=-0}, --minvel
+			{x=0, y=0, z=0}, --maxvel
+			{x=0,y=1,z=0}, --minacc
+			{x=0.5,y=1.2,z=0.5}, --maxacc
+			3, --minexptime
+			5, --maxexptime
+			2, --minsize
+			3, --maxsize
+			false, --collisiondetection
+			"horror_shadow.png" --texture
+		)
+   end,
+   animation = {
+      speed_normal = 5,
+      speed_run = 6,
+      walk_start = 2,
+      walk_end = 19,
+      stand_start = 2,
+      stand_end = 19,
+      run_start = 2,
+      run_end = 19,
+      punch_start = 2,
+      punch_end = 19,
+   },
+})
 
--- mobs:register_spawn("horror:shadow", {"default:snow", "default:pine_needles"}, 20, 0, 15000, 2, 31000)
+mobs:register_spawn("horror:shadow", {"default:snow", "default:pine_needles"}, 20, 0, 15000, 2, 31000)
    
--- mobs:register_egg("horror:shadow", "Shadow elemental", "default_obsidian.png", 1)
+mobs:register_egg("horror:shadow", "Shadow elemental", "default_obsidian.png", 1)
 
 
 mobs:register_mob("horror:mothman", {
@@ -652,8 +725,8 @@ mobs:register_mob("horror:manticore", {
    blood_texture = "mobs_blood.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
-   walk_velocity = 3,
-   run_velocity = 5,
+   walk_velocity = 2.5,
+   run_velocity = 3.5,
    jump = true,
    drops = {
       {name = "horror:cockroach", chance = 1, min = 1, max = 1},
@@ -679,6 +752,115 @@ mobs:register_mob("horror:manticore", {
 mobs:register_spawn("horror:manticore", {"default:dirt_with_grass","default:mossycobble"}, 20, 0, 15000, 2, 31000)
    
 mobs:register_egg("horror:manticore", "Manticore", "default_dirt.png", 1)
+
+
+mobs:register_mob("horror:imp", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 4,
+   reach = 2,
+   attack_type = "dogshoot",
+   shoot_interval = 2.5,
+	dogshoot_switch = 2,
+	dogshoot_count = 0,
+	dogshoot_count_max =5,
+   arrow = "horror:fireball_2",
+   shoot_offset = 0.5,
+   hp_min = 40,
+   hp_max = 55,
+   armor = 80,
+   collisionbox = {-0.5, 0, -0.6, 0.6, 3, 0.6},
+   visual = "mesh",
+   mesh = "imp.b3d",
+   textures = {
+      {"horror_imp.png"},
+   },
+   blood_texture = "mobs_blood.png",
+   visual_size = {x=2, y=2},
+   makes_footstep_sound = true,
+   walk_velocity = 2.5,
+   run_velocity = 3.5,
+   jump = true,
+   drops = {
+      {name = "default:coal_lump", chance = 1, min = 1, max = 2},
+   },
+   water_damage = 2,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 20,
+   animation = {
+      speed_normal = 10,
+      speed_run = 20,
+      walk_start = 35,
+      walk_end = 55,
+      stand_start = 1,
+      stand_end = 30,
+      run_start = 35,
+      run_end = 55,
+      punch_start = 60,
+      punch_end = 80,
+	  shoot_start = 80,
+	  shoot_end = 100,
+   },
+})
+
+mobs:register_spawn("horror:imp", {"default:dirt","horror:mud","default:gravel"}, 20, 0, 15000, 2, 31000)
+   
+mobs:register_egg("horror:imp", "Imp", "default_dirt.png", 1)
+
+mobs:register_mob("horror:mancubus", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 4,
+   reach = 2,
+   attack_type = "shoot",
+   shoot_interval = 2.5,
+	dogshoot_switch = 2,
+	dogshoot_count = 0,
+	dogshoot_count_max =5,
+   arrow = "horror:fireball_3",
+   shoot_offset = 0.5,
+   hp_min = 50,
+   hp_max = 65,
+   armor = 80,
+   collisionbox = {-0.8, 0, -0.8, 0.8, 3, 0.8},
+   visual = "mesh",
+   mesh = "mancubus.b3d",
+   textures = {
+      {"mancubus.png"},
+   },
+   blood_texture = "mobs_blood.png",
+   visual_size = {x=2, y=2},
+   makes_footstep_sound = true,
+   walk_velocity = 0.5,
+   run_velocity = 1,
+   jump = true,
+   drops = {
+      {name = "mobs:meat_raw", chance = 1, min = 1, max = 2},
+   },
+   water_damage = 2,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 20,
+   animation = {
+      speed_normal = 10,
+      speed_run = 20,
+      walk_start = 20,
+      walk_end = 40,
+      stand_start = 45,
+      stand_end = 65,
+      run_start = 20,
+      run_end = 40,
+	  shoot_start = 1,
+	  shoot_end = 15,
+   },
+})
+
+mobs:register_spawn("horror:mancubus", {"default:stone","default:sand"}, 20, 0, 15000, 2, 31000)
+   
+mobs:register_egg("horror:mancubus", "Mancubus", "default_sand.png", 1)
 
 mobs:register_mob("horror:birdie", {
    type = "monster",
