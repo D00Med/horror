@@ -241,7 +241,7 @@ mobs:register_mob("horror:cyberdemon", {
 	hp_min = 102,
 	hp_max = 112,
 	armor = 130,
-	collisionbox = {-0.7, 0, -0.7, 0.7, 5, 0.7},
+	collisionbox = {-0.7, 0, -0.7, 0.7, 6.5, 0.7},
 	visual = "mesh",
 	mesh = "cyberdemon.b3d",
 	textures = {
