@@ -337,7 +337,7 @@ mobs:register_mob("horror:dragon", {
    },
 })
 
-mobs:register_spawn("horror:dragon", {"default:pine_needles",}, 20, 0, 15000, 200, 31000)
+mobs:register_spawn("horror:dragon", {"default:pine_needles",}, 20, 0, 35000, 200, 31000)
    
 mobs:register_egg("horror:dragon", "Zombie Dragon", "horror_orb.png", 1)
 
