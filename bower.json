@@ -1,0 +1,28 @@
+{
+    "name": "horror",
+    "description": "Adds horror themed stuff.",
+    "keywords": [
+        "building",
+        "cosmetic",
+        "mobs",
+        "flowing blood",
+        "animated nodes",
+        "decorative",
+        "spikes and a spiky fence",
+        "particle spawning nodes",
+        "cockroaches",
+        "food",
+        "permanent darkness"
+    ],
+    "project": "https://github.com/D00Med/horror",
+    "forum": "https://forum.minetest.net/viewtopic.php?f=9&t=12961",
+    "screenshots": [
+        "http://s18.postimg.org/qxqqg4789/screenshot_601384761.png",
+		"https://s32.postimg.org/pds7l6n9x/screenshot.png",
+		"https://s31.postimg.org/i8vw8zi23/screenshot_20160729_121957_1.png",
+		"https://s9.postimg.org/wcre2q0en/screenshot_20160810_171328.png"
+    ],
+    "authors": [
+        "D00Med"
+    ]
+}
