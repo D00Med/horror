@@ -496,13 +496,13 @@ mobs:register_mob("horror:skull", {
    hp_min = 30,
    hp_max = 45,
    armor = 80,
-   collisionbox = {-0.3, -0.3, -0.3, 0.3, 0.3, 0.3},
+   collisionbox = {-0.4, -0.1, -0.4, 0.4, 1.5, 0.4},
    visual = "mesh",
-   mesh = "skull.b3d",
+   mesh = "lost_soul.b3d",
    textures = {
-      {"skull.png"},
+      {"lost_soul.png"},
    },
-   blood_texture = "default_sand.png",
+   blood_texture = "horror_flame2.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    walk_velocity = 3,
@@ -514,18 +514,18 @@ mobs:register_mob("horror:skull", {
 		local part = minetest.add_particlespawner(
 			12, --amount
 			0.3, --time
-			{x=apos.x-0.3, y=apos.y-0.3, z=apos.z-0.3}, --minpos
-			{x=apos.x+0.3, y=apos.y-0.3, z=apos.z+0.3}, --maxpos
+			{x=apos.x-0.3, y=apos.y+0.6, z=apos.z-0.3}, --minpos
+			{x=apos.x+0.3, y=apos.y+0.6, z=apos.z+0.3}, --maxpos
 			{x=-0, y=-0, z=-0}, --minvel
 			{x=0, y=0, z=0}, --maxvel
-			{x=0,y=1,z=0}, --minacc
-			{x=0.5,y=1,z=0.5}, --maxacc
+			{x=0,y=1.5,z=0}, --minacc
+			{x=0.5,y=1.5,z=0.5}, --maxacc
 			1, --minexptime
 			2, --maxexptime
 			3, --minsize
 			5, --maxsize
 			false, --collisiondetection
-			"horror_flame2.png" --texture
+			"horror_flame3.png" --texture
 		)
    end,
    fall_speed = 0,
@@ -535,22 +535,22 @@ mobs:register_mob("horror:skull", {
    light_damage = 0,
    view_range = 20,
    animation = {
-      speed_normal = 5,
-      speed_run = 6,
-      walk_start = 1,
-      walk_end = 10,
+      speed_normal = 10,
+      speed_run = 20,
+      walk_start = 20,
+      walk_end = 40,
       stand_start = 1,
-      stand_end = 10,
-      run_start = 1,
-      run_end = 10,
-      punch_start = 1,
-      punch_end = 10,
+      stand_end = 20,
+      run_start = 20,
+      run_end = 40,
+      punch_start = 40,
+      punch_end = 65,
    },
 })
 
 mobs:register_spawn("horror:skull", {"fire:basic_flame","default:leaves"}, 20, 0, 15000, 2, 31000)
    
-mobs:register_egg("horror:skull", "Flying Skull", "horror_gfire_inv.png", 1)
+mobs:register_egg("horror:skull", "Lost Soul", "horror_gfire_inv.png", 1)
 
 mobs:register_mob("horror:cacodemon", {
    type = "monster",
