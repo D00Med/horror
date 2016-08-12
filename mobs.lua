@@ -16,7 +16,7 @@ mobs:register_mob("horror:centipede_body", {
 	textures = {
 		{"centipede.png"},
 	},
-	blood_texture = "mobs_blood.png",
+	blood_texture = "horror_blood_effect.png",
 	visual_size = {x=2, y=2},
 	makes_footstep_sound = false,
 	walk_velocity = 1.5,
@@ -55,6 +55,7 @@ mobs:register_mob("horror:centipede_head", {
 	textures = {
 		{"centipede.png"},
 	},
+   blood_amount = 60,
 	visual_size = {x=2, y=2},
 	makes_footstep_sound = true,
 	walk_velocity = 2.5,
@@ -141,7 +142,8 @@ mobs:register_mob("horror:spider", {
 	textures = {
 		{"hspider.png"},
 	},
-	blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+	blood_texture = "horror_blood_effect.png",
 	visual_size = {x=4, y=4},
 	makes_footstep_sound = true,
 	walk_velocity = 2.5,
@@ -193,7 +195,8 @@ mobs:register_mob("horror:ghost", {
 	textures = {
 		{"horror_ghost.png"},
 	},
-	blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+	blood_texture = "horror_blood_effect.png",
 	visual_size = {x=4, y=4.6},
 	makes_footstep_sound = false,
 	walk_velocity = 1,
@@ -247,7 +250,8 @@ mobs:register_mob("horror:cyberdemon", {
 	textures = {
 		{"horror_cyberdemon.png"},
 	},
-	blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+	blood_texture = "horror_blood_effect.png",
 	visual_size = {x=2, y=2},
 	makes_footstep_sound = true,
 	walk_velocity = 1,
@@ -297,14 +301,15 @@ mobs:register_mob("horror:dragon", {
    shoot_offset = 1,
    hp_min = 50,
    hp_max = 85,
-   armor = 80,
+   armor = 90,
    collisionbox = {-0.6, -0.9, -0.6, 0.6, 0.6, 0.6},
    visual = "mesh",
    mesh = "dragon_new.b3d",
    textures = {
       {"horror_dragon.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    sounds = {
@@ -315,7 +320,8 @@ mobs:register_mob("horror:dragon", {
    jump = true,
    fly = true,
    drops = {
-      {name = "mobs:lava_orb", chance = 1, min = 1, max = 1},
+      {name = "mobs:lava_orb", chance = 50, min = 1, max = 3},
+      {name = "default:diamond", chance = 50, min = 1, max = 3},
    },
    fall_speed = 0,
    stepheight = 10,
@@ -422,6 +428,33 @@ mobs:register_arrow("horror:fireball_3", {
    end,
 })
 
+mobs:register_arrow("horror:fireball_4", {
+   visual = "sprite",
+   visual_size = {x = 1, y = 1},
+   textures = {"horror_plasma.png"},
+   velocity = 6,
+   tail = 0, -- enable tail
+   tail_texture = "horror_steam.png",
+
+   hit_player = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 3},
+      }, nil)
+   end,
+   
+   hit_mob = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 3},
+      }, nil)
+   end,
+
+   hit_node = function(self, pos, node)
+      self.object:remove()
+   end,
+})
+
 mobs:register_arrow("horror:rocket", {
    visual = "sprite",
    visual_size = {x = 0.5, y = 0.5},
@@ -469,7 +502,7 @@ mobs:register_mob("horror:skull", {
    textures = {
       {"skull.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_texture = "default_sand.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    walk_velocity = 3,
@@ -519,6 +552,57 @@ mobs:register_spawn("horror:skull", {"fire:basic_flame","default:leaves"}, 20, 0
    
 mobs:register_egg("horror:skull", "Flying Skull", "horror_gfire_inv.png", 1)
 
+mobs:register_mob("horror:cacodemon", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 8,
+   reach = 3,
+   attack_type = "shoot",
+   shoot_interval = 2.5,
+   arrow = "horror:fireball_4",
+   shoot_offset = 1,
+   hp_min = 30,
+   hp_max = 45,
+   armor = 80,
+   collisionbox = {-0.9, -0.2, -0.9, 0.9, 1.5, 0.9},
+   visual = "mesh",
+   mesh = "cacodemon.b3d",
+   textures = {
+      {"horror_cacodemon.png"},
+   },
+   blood_amount = 60,
+   blood_texture = "horror_plasma.png",
+   visual_size = {x=3, y=3},
+   makes_footstep_sound = true,
+   walk_velocity = 3,
+   run_velocity = 5,
+   jump = true,
+   fly = true,
+   fall_speed = 0,
+   stepheight = 10,
+   water_damage = 2,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 20,
+   animation = {
+      speed_normal = 10,
+      speed_run = 20,
+      walk_start = 1,
+      walk_end = 20,
+      stand_start = 1,
+      stand_end = 20,
+      run_start = 1,
+      run_end = 20,
+      shoot_start = 20,
+      shoot_end = 40,
+   },
+})
+
+mobs:register_spawn("horror:cacodemon", {"fire:basic_flame","default:lava_flowing"}, 20, 0, 15000, 2, 31000)
+   
+mobs:register_egg("horror:cacodemon", "Cacodemon", "wool_red.png", 1)
+
 mobs:register_mob("horror:mogall", {
    type = "monster",
    passive = false,
@@ -538,7 +622,8 @@ mobs:register_mob("horror:mogall", {
    textures = {
       {"mogall.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=4, y=4},
    makes_footstep_sound = true,
    walk_velocity = 1,
@@ -581,14 +666,15 @@ mobs:register_mob("horror:shadow", {
    shoot_offset = 1,
    hp_min = 30,
    hp_max = 45,
-   armor = 80,
+   armor = 100,
    collisionbox = {-0.3, -0, -0.3, 0.3, 1, 0.3},
    visual = "mesh",
    mesh = "shadow.b3d",
    textures = {
       {"blank.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_shadow.png",
    visual_size = {x=4, y=4},
    makes_footstep_sound = true,
    walk_velocity = 1,
@@ -655,7 +741,8 @@ mobs:register_mob("horror:mothman", {
    textures = {
       {"mothman.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    walk_velocity = 3,
@@ -710,19 +797,20 @@ mobs:register_mob("horror:manticore", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 4,
-   reach = 4,
+   damage = 2,
+   reach = 3,
    attack_type = "dogfight",
-   hp_min = 40,
-   hp_max = 55,
-   armor = 80,
+   hp_min = 30,
+   hp_max = 45,
+   armor = 130,
    collisionbox = {-0.5, -0.5, -0.6, 0.6, 0.6, 0.6},
    visual = "mesh",
    mesh = "manticore.b3d",
    textures = {
       {"manticore.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    walk_velocity = 2.5,
@@ -776,7 +864,8 @@ mobs:register_mob("horror:imp", {
    textures = {
       {"horror_imp.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=2, y=2},
    makes_footstep_sound = true,
    walk_velocity = 2.5,
@@ -809,6 +898,60 @@ mobs:register_spawn("horror:imp", {"default:dirt","horror:mud","default:gravel"}
    
 mobs:register_egg("horror:imp", "Imp", "default_dirt.png", 1)
 
+mobs:register_mob("horror:werewolf", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 4,
+   reach = 2,
+   attack_type = "dogfight",
+   shoot_interval = 2.5,
+	dogshoot_switch = 2,
+	dogshoot_count = 0,
+	dogshoot_count_max =5,
+   arrow = "horror:fireball_2",
+   shoot_offset = 0.5,
+   hp_min = 10,
+   hp_max = 25,
+   armor = 100,
+   collisionbox = {-0.5, 0, -0.6, 0.6, 2, 0.6},
+   visual = "mesh",
+   mesh = "werewolf.b3d",
+   textures = {
+      {"horror_werewolf.png"},
+   },
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
+   visual_size = {x=2, y=2},
+   makes_footstep_sound = true,
+   walk_velocity = 1,
+   run_velocity = 3.5,
+   jump = true,
+   drops = {
+      {name = "default:papyrus", chance = 1, min = 1, max = 6},
+   },
+   water_damage = 2,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 20,
+   animation = {
+      speed_normal = 10,
+      speed_run = 20,
+      walk_start = 45,
+      walk_end = 65,
+      stand_start = 1,
+      stand_end = 20,
+      run_start = 66,
+      run_end = 86,
+      punch_start = 20,
+      punch_end = 44,
+   },
+})
+
+mobs:register_spawn("horror:werewolf", {"default:dirt_with_grass","horror:mud","default:gravel"}, 20, 0, 35000, 2, 31000)
+   
+mobs:register_egg("horror:werewolf", "Werewolf", "default_gravel.png", 1)
+
 mobs:register_mob("horror:mancubus", {
    type = "monster",
    passive = false,
@@ -824,14 +967,15 @@ mobs:register_mob("horror:mancubus", {
    shoot_offset = 0.5,
    hp_min = 50,
    hp_max = 65,
-   armor = 80,
+   armor = 100,
    collisionbox = {-0.8, 0, -0.8, 0.8, 3, 0.8},
    visual = "mesh",
    mesh = "mancubus.b3d",
    textures = {
       {"mancubus.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=2, y=2},
    makes_footstep_sound = true,
    walk_velocity = 0.5,
@@ -871,14 +1015,15 @@ mobs:register_mob("horror:birdie", {
    attack_type = "dogfight",
    hp_min = 30,
    hp_max = 45,
-   armor = 80,
+   armor = 100,
    collisionbox = {-0.5, -0, -0.6, 0.6, 1.6, 0.6},
    visual = "mesh",
    mesh = "birdie.b3d",
    textures = {
       {"birdie.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    walk_velocity = 1,
@@ -922,7 +1067,8 @@ mobs:register_mob("horror:pinky", {
    textures = {
       {"pinky.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    walk_velocity = 2,
@@ -969,7 +1115,8 @@ mobs:register_mob("horror:demon", {
    textures = {
       {"demon.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=3.5, y=3},
    makes_footstep_sound = true,
    walk_velocity = 2,
@@ -1016,7 +1163,7 @@ mobs:register_mob("horror:armour", {
    textures = {
       {"armour.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=2, y=2},
    makes_footstep_sound = true,
    walk_velocity = 0.5,
@@ -1061,7 +1208,8 @@ mobs:register_mob("horror:sam", {
    textures = {
       {"horror_sam.png"},
    },
-   blood_texture = "mobs_blood.png",
+   blood_amount = 60,
+   blood_texture = "horror_blood_effect.png",
    visual_size = {x=1, y=1},
    makes_footstep_sound = false,
    walk_velocity = 0.01,

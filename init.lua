@@ -374,7 +374,7 @@ minetest.register_node("horror:spiderweb", {
 		"horror_spiderweb.png"
 	},
 	inventory_image = "horror_spiderweb.png",
-	groups = {snappy=1, oddly_breakable_by_hand=1, liquid=3}
+	groups = {snappy=1, oddly_breakable_by_hand=1, liquid=3, dig_immediate=1}
 })
 
 minetest.register_node("horror:spiderweb_decaying", {
