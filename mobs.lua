@@ -1,352 +1,5 @@
 
-
-
-mobs:register_mob("horror:centipede_body", {
-	type = "npc",
-	attacks_monsters = true,
-	reach = 0,
-	damage = 0,
-	attack_type = "dogfight",
-	hp_min = 12,
-	hp_max = 22,
-	armor = 130,
-	collisionbox = {-0.4, -0.5, -0.4, 0.4, 0.5, 0.4},
-	visual = "mesh",
-	mesh = "centipede_segment.b3d",
-	textures = {
-		{"centipede.png"},
-	},
-	blood_texture = "horror_blood_effect.png",
-	visual_size = {x=2, y=2},
-	makes_footstep_sound = false,
-	walk_velocity = 1.5,
-	run_velocity = 3.5,
-	jump = true,
-	water_damage = 0,
-	lava_damage = 2,
-	light_damage = 0,
-	replace_rate = 10,
-	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "ethereal:bamboo"},
-	replace_with = "air",
-	view_range = 10,
-	animation = {
-		speed_normal = 10,
-		speed_run = 15,
-		walk_start = 1,
-		walk_end = 12,
-		run_start = 1,
-		run_end = 12,
-
-	},
-})
-
---Improvements thanks to TenPlus1 and Byakuren
-mobs:register_mob("horror:centipede_head", {
-	type = "monster",
-	reach = 1,
-	damage = 2,
-	attack_type = "dogfight",
-	hp_min = 12,
-	hp_max = 22,
-	armor = 130,
-	collisionbox = {-0.4, -0.5, -0.4, 0.4, 0.5, 0.4},
-	visual = "mesh",
-	mesh = "centipede.b3d",
-	textures = {
-		{"centipede.png"},
-	},
-   blood_amount = 60,
-	visual_size = {x=2, y=2},
-	makes_footstep_sound = true,
-	walk_velocity = 2.5,
-	run_velocity = 3.5,
-	jump = false,
-	drops = {
-		{name = "mobs:meat_raw", chance = 1, min = 1, max = 1},
-	},
-	sounds = {
-		random = "mobs_spider",
-		attack = "mobs_spider",
-	},
-	do_custom = function(self)
-
-            if not self.centipede then
-                self.centipede = true -- flip switch so this part is done only once
-
-                -- get head position and define a few temp variables
-                local pos = self.object:getpos()
-                local obj, obj2, ent
-
-                -- add body and make it follow head
-                obj = minetest.add_entity({x=pos.x+1, y=pos.y, z=pos.z}, "horror:centipede_body")
-                ent = obj:get_luaentity()
-                ent.following = self.object
-
-                -- add body and make it follow previous body segment
-                obj2 = minetest.add_entity({x=pos.x+2, y=pos.y, z=pos.z}, "horror:centipede_body")
-                ent = obj2:get_luaentity()
-                ent.following = obj
-                -- add body and make it follow previous body segment
-                obj3 = minetest.add_entity({x=pos.x+3, y=pos.y, z=pos.z}, "horror:centipede_body")
-                ent = obj3:get_luaentity()
-                ent.following = obj2
-                -- add body and make it follow previous body segment
-                obj4 = minetest.add_entity({x=pos.x+4, y=pos.y, z=pos.z}, "horror:centipede_body")
-                ent = obj4:get_luaentity()
-                ent.following = obj3
-                -- add body and make it follow previous body segment
-                obj5 = minetest.add_entity({x=pos.x+5, y=pos.y, z=pos.z}, "horror:centipede_body")
-                ent = obj5:get_luaentity()
-                ent.following = obj4
-                -- add body and make it follow previous body segment
-                obj6 = minetest.add_entity({x=pos.x+6, y=pos.y, z=pos.z}, "horror:centipede_body")
-                ent = obj6:get_luaentity()
-                ent.following = obj5
-            end
-    end,
-	water_damage = 0,
-	lava_damage = 2,
-	light_damage = 0,
-	replace_rate = 10,
-	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "ethereal:bamboo"},
-	replace_with = "air",
-	view_range = 14,
-	animation = {
-		speed_normal = 10,
-		speed_run = 15,
-		walk_start = 1,
-		walk_end = 12,
-		run_start = 1,
-		run_end = 12,
-
-	},
-})
-
-mobs:register_spawn("horror:centipede_head", {"horror:mud","default:dirt_with_dry_grass"}, 20, 0, 1500, 2, 31000)
-
-mobs:register_egg("horror:centipede_head", "Centipede", "default_dirt.png", 1)
-
-
-mobs:register_mob("horror:spider", {
-	type = "monster",
-	passive = false,
-	reach = 2,
-	damage = 2,
-	attack_type = "dogfight",
-	hp_min = 32,
-	hp_max = 42,
-	armor = 130,
-	collisionbox = {-0.6, -0.6, -0.5, 0.5, 0.6, 0.5},
-	visual = "mesh",
-	mesh = "hspider.b3d",
-	textures = {
-		{"hspider.png"},
-	},
-   blood_amount = 60,
-	blood_texture = "horror_blood_effect.png",
-	visual_size = {x=4, y=4},
-	makes_footstep_sound = true,
-	walk_velocity = 2.5,
-	run_velocity = 3.1,
-	sounds = {
-		random = "mobs_spider",
-		attack = "mobs_spider",
-	},
-	jump = true,
-	drops = {
-		{name = "mobs:meat_raw", chance = 10, min = 1, max = 1},
-	},
-	water_damage = 0,
-	lava_damage = 2,
-	light_damage = 0,
-	replace_rate = 20,
-	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "air"},
-	replace_with = "horror:spiderweb_decaying",
-	view_range = 14,
-	animation = {
-		speed_normal = 10,
-		speed_run = 15,
-		walk_start = 1,
-		walk_end = 12,
-		run_start = 1,
-		run_end = 12,
-		stand_start = 1,
-		stand_end = 1,
-
-	},
-})
-
-mobs:register_spawn("horror:spider", {"default:leaves","default:stone"}, 20, 0, 15000, 2, 31000)
-
-mobs:register_egg("horror:spider", "6-legged Spider", "default_obsidian.png", 1)
-
-mobs:register_mob("horror:ghost", {
-	type = "monster",
-	passive = false,
-	reach = 2,
-	damage = 2,
-	attack_type = "dogfight",
-	hp_min = 32,
-	hp_max = 42,
-	armor = 130,
-	collisionbox = {-0.4, 0, -0.5, 0.5, 1.5, 0.5},
-	visual = "mesh",
-	mesh = "ghost.b3d",
-	textures = {
-		{"horror_ghost.png"},
-	},
-   blood_amount = 60,
-	blood_texture = "horror_blood_effect.png",
-	visual_size = {x=4, y=4.6},
-	makes_footstep_sound = false,
-	walk_velocity = 1,
-	run_velocity = 2.1,
-	sounds = {
-		random = "mobs_oerkki",
-		attack = "mobs_oerkki",
-	},
-	jump = true,
-	drops = {
-		{name = "farming:cotton", chance = 10, min = 1, max = 1},
-	},
-	water_damage = 2,
-	lava_damage = 2,
-	light_damage = 0,
-	view_range = 5,
-	animation = {
-		speed_normal = 10,
-		speed_run = 15,
-		walk_start = 1,
-		walk_end = 20,
-		run_start = 30,
-		run_end = 50,
-		stand_start = 1,
-		stand_end = 2,
-		punch_start = 50,
-		punch_end = 70,
-
-	},
-})
-
-mobs:register_spawn("horror:ghost", {"default:snowblock","default:sand"}, 20, 0, 15000, 2, 31000)
-
-mobs:register_egg("horror:ghost", "Ghost", "default_snow.png", 1)
-
-mobs:register_mob("horror:cyberdemon", {
-	type = "monster",
-	passive = false,
-	reach = 3,
-	damage = 2,
-	attack_type = "shoot",
-   shoot_interval = 3.5,
-   arrow = "horror:rocket",
-   shoot_offset = 0,
-	hp_min = 102,
-	hp_max = 112,
-	armor = 130,
-	collisionbox = {-0.7, 0, -0.7, 0.7, 6.5, 0.7},
-	visual = "mesh",
-	mesh = "cyberdemon.b3d",
-	textures = {
-		{"horror_cyberdemon.png"},
-	},
-   blood_amount = 60,
-	blood_texture = "horror_blood_effect.png",
-	visual_size = {x=2, y=2},
-	makes_footstep_sound = true,
-	walk_velocity = 1,
-	run_velocity = 2.1,
-	sounds = {
-		random = "mobs_stone_monster",
-		attack = "mobs_stone_monster",
-	},
-	jump = true,
-	drops = {
-		{name = "default:mese", chance = 1, min = 1, max = 1},
-		{name = "mobs:meat_raw", chance = 1, min = 3, max = 5},
-	},
-	water_damage = 0,
-	lava_damage = 0,
-	light_damage = 0,
-	view_range = 15,
-	animation = {
-		speed_normal = 10,
-		speed_run = 15,
-		walk_start = 20,
-		walk_end = 40,
-		run_start = 20,
-		run_end = 40,
-		stand_start = 64,
-		stand_end = 80,
-		shoot_start = 1,
-		shoot_end = 15,
-
-	},
-})
-
-mobs:register_spawn("horror:cyberdemon", {"nether:stone","default:dirt_with_grass"}, 20, 0, 35000, 2, 31000)
-
-mobs:register_egg("horror:cyberdemon", "Cyberdemon", "wool_red.png", 1)
-
-
-mobs:register_mob("horror:dragon", {
-   type = "monster",
-   passive = false,
-   attacks_monsters = true,
-   damage = 8,
-   reach = 3,
-   attack_type = "dogshoot",
-   shoot_interval = 3.5,
-   arrow = "horror:fireball",
-   shoot_offset = 1,
-   hp_min = 50,
-   hp_max = 85,
-   armor = 90,
-   collisionbox = {-0.6, -0.9, -0.6, 0.6, 0.6, 0.6},
-   visual = "mesh",
-   mesh = "dragon_new.b3d",
-   textures = {
-      {"horror_dragon.png"},
-   },
-   blood_amount = 60,
-   blood_texture = "horror_blood_effect.png",
-   visual_size = {x=3, y=3},
-   makes_footstep_sound = true,
-   sounds = {
-      shoot_attack = "mobs_fireball",
-   },
-   walk_velocity = 3,
-   run_velocity = 5,
-   jump = true,
-   fly = true,
-   drops = {
-      {name = "mobs:lava_orb", chance = 50, min = 1, max = 3},
-      {name = "default:diamond", chance = 50, min = 1, max = 3},
-   },
-   fall_speed = 0,
-   stepheight = 10,
-   water_damage = 2,
-   lava_damage = 0,
-   light_damage = 0,
-   view_range = 20,
-   animation = {
-      speed_normal = 10,
-      speed_run = 20,
-      walk_start = 1,
-      walk_end = 22,
-      stand_start = 1,
-      stand_end = 22,
-      run_start = 1,
-      run_end = 22,
-      punch_start = 22,
-      punch_end = 47,
-   },
-})
-
-mobs:register_spawn("horror:dragon", {"default:pine_needles",}, 20, 0, 35000, 200, 31000)
-   
-mobs:register_egg("horror:dragon", "Zombie Dragon", "horror_orb.png", 1)
-
+--arrows
 mobs:register_arrow("horror:fireball", {
    visual = "sprite",
    visual_size = {x = 0.5, y = 0.5},
@@ -481,6 +134,360 @@ mobs:register_arrow("horror:rocket", {
       mobs:explosion(pos, 2, 1, 1)
    end,
 })
+--mobs, eggs and spawning
+mobs:register_mob("horror:centipede_body", {
+	type = "npc",
+	attacks_monsters = true,
+	reach = 0,
+	damage = 0,
+	attack_type = "dogfight",
+	hp_min = 12,
+	hp_max = 22,
+	armor = 130,
+	collisionbox = {-0.4, -0.5, -0.4, 0.4, 0.5, 0.4},
+	visual = "mesh",
+	mesh = "centipede_segment.b3d",
+	textures = {
+		{"centipede.png"},
+	},
+	blood_texture = "horror_blood_effect.png",
+	visual_size = {x=2, y=2},
+	makes_footstep_sound = false,
+	walk_velocity = 1.5,
+	run_velocity = 3.5,
+	jump = true,
+	water_damage = 0,
+	lava_damage = 2,
+	light_damage = 0,
+	replace_rate = 10,
+	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "ethereal:bamboo"},
+	replace_with = "air",
+	do_custom = function(self)
+		if self.following == nil then
+		self.object:remove()
+		end
+	end,
+	view_range = 10,
+	animation = {
+		speed_normal = 10,
+		speed_run = 15,
+		walk_start = 1,
+		walk_end = 12,
+		run_start = 1,
+		run_end = 12,
+
+	},
+})
+
+--Improvements thanks to TenPlus1 and Byakuren
+mobs:register_mob("horror:centipede_head", {
+	type = "monster",
+	reach = 1,
+	damage = 2,
+	attack_type = "dogfight",
+	hp_min = 12,
+	hp_max = 22,
+	armor = 130,
+	collisionbox = {-0.4, -0.5, -0.4, 0.4, 0.5, 0.4},
+	visual = "mesh",
+	mesh = "centipede.b3d",
+	textures = {
+		{"centipede.png"},
+	},
+   blood_amount = 80,
+	visual_size = {x=2, y=2},
+	makes_footstep_sound = true,
+	walk_velocity = 2.5,
+	run_velocity = 3.5,
+	jump = false,
+	drops = {
+		{name = "mobs:meat_raw", chance = 1, min = 1, max = 1},
+	},
+	sounds = {
+		random = "mobs_spider",
+		attack = "mobs_spider",
+	},
+	do_custom = function(self)
+
+            if not self.centipede then
+                self.centipede = true -- flip switch so this part is done only once
+
+                -- get head position and define a few temp variables
+                local pos = self.object:getpos()
+                local obj, obj2, ent
+
+                -- add body and make it follow head
+                obj = minetest.add_entity({x=pos.x+1, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj:get_luaentity()
+                ent.following = self.object
+
+                -- add body and make it follow previous body segment
+                obj2 = minetest.add_entity({x=pos.x+2, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj2:get_luaentity()
+                ent.following = obj
+                -- add body and make it follow previous body segment
+                obj3 = minetest.add_entity({x=pos.x+3, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj3:get_luaentity()
+                ent.following = obj2
+                -- add body and make it follow previous body segment
+                obj4 = minetest.add_entity({x=pos.x+4, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj4:get_luaentity()
+                ent.following = obj3
+                -- add body and make it follow previous body segment
+                obj5 = minetest.add_entity({x=pos.x+5, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj5:get_luaentity()
+                ent.following = obj4
+                -- add body and make it follow previous body segment
+                obj6 = minetest.add_entity({x=pos.x+6, y=pos.y, z=pos.z}, "horror:centipede_body")
+                ent = obj6:get_luaentity()
+                ent.following = obj5
+            end
+    end,
+	water_damage = 0,
+	lava_damage = 2,
+	light_damage = 0,
+	replace_rate = 10,
+	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "ethereal:bamboo"},
+	replace_with = "air",
+	view_range = 14,
+	animation = {
+		speed_normal = 10,
+		speed_run = 15,
+		walk_start = 1,
+		walk_end = 12,
+		run_start = 1,
+		run_end = 12,
+
+	},
+})
+
+mobs:register_spawn("horror:centipede_head", {"horror:mud","default:dirt_with_dry_grass"}, 20, 0, 1500, 2, 31000)
+
+mobs:register_egg("horror:centipede_head", "Centipede", "default_dirt.png", 1)
+
+
+mobs:register_mob("horror:spider", {
+	type = "monster",
+	passive = false,
+	reach = 2,
+	damage = 2,
+	attack_type = "dogfight",
+	hp_min = 32,
+	hp_max = 42,
+	armor = 130,
+	collisionbox = {-0.7, 0, -0.7, 0.7, 1.5, 0.7},
+	visual = "mesh",
+	mesh = "hspider.b3d",
+	textures = {
+		{"hspider.png"},
+	},
+   blood_amount = 80,
+	blood_texture = "horror_blood_effect.png",
+	visual_size = {x=3, y=3},
+	makes_footstep_sound = true,
+	walk_velocity = 2.5,
+	run_velocity = 3.1,
+	sounds = {
+		random = "mobs_spider",
+		attack = "mobs_spider",
+	},
+	jump = true,
+	drops = {
+		{name = "mobs:meat_raw", chance = 10, min = 1, max = 1},
+		{name = "farming:cotton", chance = 10, min = 3, max = 6},
+	},
+	water_damage = 0,
+	lava_damage = 2,
+	light_damage = 0,
+	replace_rate = 20,
+	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "air"},
+	replace_with = "horror:spiderweb_decaying",
+	view_range = 14,
+	animation = {
+		speed_normal = 10,
+		speed_run = 15,
+		walk_start = 45,
+		walk_end = 65,
+		run_start = 45,
+		run_end = 65,
+		stand_start = 1,
+		stand_end = 20,
+		punch_start = 20,
+		punch_end = 40,
+
+	},
+})
+
+mobs:register_spawn("horror:spider", {"default:leaves","default:stone"}, 20, 0, 15000, 2, 31000)
+
+mobs:register_egg("horror:spider", "Giant Spider", "default_obsidian.png", 1)
+
+mobs:register_mob("horror:ghost", {
+	type = "monster",
+	passive = false,
+	reach = 2,
+	damage = 2,
+	attack_type = "dogfight",
+	hp_min = 32,
+	hp_max = 42,
+	armor = 130,
+	collisionbox = {-0.4, 0, -0.5, 0.5, 1.5, 0.5},
+	visual = "mesh",
+	mesh = "ghost.b3d",
+	textures = {
+		{"horror_ghost.png"},
+	},
+   blood_amount = 60,
+	blood_texture = "horror_blood_effect.png",
+	visual_size = {x=4, y=4.6},
+	makes_footstep_sound = false,
+	walk_velocity = 1,
+	run_velocity = 2.1,
+	sounds = {
+		random = "mobs_oerkki",
+		attack = "mobs_oerkki",
+	},
+	jump = true,
+	drops = {
+		{name = "farming:cotton", chance = 10, min = 1, max = 1},
+	},
+	water_damage = 2,
+	lava_damage = 2,
+	light_damage = 0,
+	view_range = 5,
+	animation = {
+		speed_normal = 10,
+		speed_run = 15,
+		walk_start = 1,
+		walk_end = 20,
+		run_start = 30,
+		run_end = 50,
+		stand_start = 1,
+		stand_end = 2,
+		punch_start = 50,
+		punch_end = 70,
+
+	},
+})
+
+mobs:register_spawn("horror:ghost", {"default:snowblock","default:sand"}, 20, 0, 15000, 2, 31000)
+
+mobs:register_egg("horror:ghost", "Ghost", "default_snow.png", 1)
+
+mobs:register_mob("horror:cyberdemon", {
+	type = "monster",
+	passive = false,
+	reach = 3,
+	damage = 2,
+	attack_type = "shoot",
+   shoot_interval = 3.5,
+   arrow = "horror:rocket",
+   shoot_offset = -1,
+	hp_min = 102,
+	hp_max = 112,
+	armor = 130,
+	collisionbox = {-0.7, 0, -0.7, 0.7, 6.5, 0.7},
+	visual = "mesh",
+	mesh = "cyberdemon.b3d",
+	textures = {
+		{"horror_cyberdemon.png"},
+	},
+   blood_amount = 90,
+	blood_texture = "horror_blood_effect.png",
+	visual_size = {x=2, y=2},
+	makes_footstep_sound = true,
+	walk_velocity = 1,
+	run_velocity = 2.1,
+	sounds = {
+		random = "mobs_stone_monster",
+		attack = "mobs_stone_monster",
+	},
+	jump = true,
+	drops = {
+		{name = "default:mese", chance = 1, min = 1, max = 1},
+		{name = "mobs:meat_raw", chance = 1, min = 3, max = 5},
+	},
+	water_damage = 0,
+	lava_damage = 0,
+	light_damage = 0,
+	view_range = 15,
+	animation = {
+		speed_normal = 10,
+		speed_run = 15,
+		walk_start = 20,
+		walk_end = 40,
+		run_start = 20,
+		run_end = 40,
+		stand_start = 64,
+		stand_end = 80,
+		shoot_start = 1,
+		shoot_end = 15,
+
+	},
+})
+
+mobs:register_spawn("horror:cyberdemon", {"nether:stone","default:dirt_with_grass"}, 20, 0, 35000, 2, 31000)
+
+mobs:register_egg("horror:cyberdemon", "Cyberdemon", "wool_red.png", 1)
+
+
+mobs:register_mob("horror:dragon", {
+   type = "monster",
+   passive = false,
+   attacks_monsters = true,
+   damage = 8,
+   reach = 3,
+   attack_type = "dogshoot",
+   shoot_interval = 3.5,
+   arrow = "horror:fireball",
+   shoot_offset = 1,
+   hp_min = 50,
+   hp_max = 85,
+   armor = 90,
+   collisionbox = {-0.6, -0.9, -0.6, 0.6, 0.6, 0.6},
+   visual = "mesh",
+   mesh = "dragon_new.b3d",
+   textures = {
+      {"horror_dragon.png"},
+   },
+   blood_amount = 90,
+   blood_texture = "horror_blood_effect.png",
+   visual_size = {x=3, y=3},
+   makes_footstep_sound = true,
+   sounds = {
+      shoot_attack = "mobs_fireball",
+   },
+   walk_velocity = 3,
+   run_velocity = 5,
+   jump = true,
+   fly = true,
+   drops = {
+      {name = "mobs:lava_orb", chance = 50, min = 1, max = 3},
+      {name = "default:diamond", chance = 50, min = 1, max = 3},
+   },
+   fall_speed = 0,
+   stepheight = 10,
+   water_damage = 2,
+   lava_damage = 0,
+   light_damage = 0,
+   view_range = 20,
+   animation = {
+      speed_normal = 10,
+      speed_run = 20,
+      walk_start = 1,
+      walk_end = 22,
+      stand_start = 1,
+      stand_end = 22,
+      run_start = 1,
+      run_end = 22,
+      punch_start = 22,
+      punch_end = 47,
+   },
+})
+
+mobs:register_spawn("horror:dragon", {"default:pine_needles",}, 20, 0, 35000, 200, 31000)
+   
+mobs:register_egg("horror:dragon", "Zombie Dragon", "horror_orb.png", 1)
 
 
 mobs:register_mob("horror:skull", {
@@ -571,7 +578,7 @@ mobs:register_mob("horror:cacodemon", {
    textures = {
       {"horror_cacodemon.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_plasma.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
@@ -622,7 +629,7 @@ mobs:register_mob("horror:mogall", {
    textures = {
       {"mogall.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=4, y=4},
    makes_footstep_sound = true,
@@ -729,7 +736,7 @@ mobs:register_mob("horror:mothman", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 8,
+   damage = 2,
    reach = 3,
    attack_type = "dogfight",
    hp_min = 30,
@@ -809,7 +816,7 @@ mobs:register_mob("horror:manticore", {
    textures = {
       {"manticore.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
@@ -864,7 +871,7 @@ mobs:register_mob("horror:imp", {
    textures = {
       {"horror_imp.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=2, y=2},
    makes_footstep_sound = true,
@@ -920,7 +927,7 @@ mobs:register_mob("horror:werewolf", {
    textures = {
       {"horror_werewolf.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=2, y=2},
    makes_footstep_sound = true,
@@ -974,7 +981,7 @@ mobs:register_mob("horror:mancubus", {
    textures = {
       {"mancubus.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=2, y=2},
    makes_footstep_sound = true,
@@ -1011,7 +1018,7 @@ mobs:register_mob("horror:birdie", {
    passive = false,
    attacks_monsters = true,
    damage = 3,
-   reach = 2,
+   reach = 3,
    attack_type = "dogfight",
    hp_min = 30,
    hp_max = 45,
@@ -1022,13 +1029,16 @@ mobs:register_mob("horror:birdie", {
    textures = {
       {"birdie.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
    walk_velocity = 1,
    run_velocity = 2,
    jump = true,
+   drops = {
+      {name = "mobs:meat_raw", chance = 1, min = 1, max = 2},
+   },
    water_damage = 0,
    lava_damage = 0,
    light_damage = 0,
@@ -1067,7 +1077,7 @@ mobs:register_mob("horror:pinky", {
    textures = {
       {"pinky.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=3, y=3},
    makes_footstep_sound = true,
@@ -1103,19 +1113,19 @@ mobs:register_mob("horror:demon", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 6,
-   reach = 4,
+   damage = 4,
+   reach = 2,
    attack_type = "dogfight",
    hp_min = 30,
    hp_max = 45,
-   armor = 80,
+   armor = 100,
    collisionbox = {-0.4, -0.5, -0.6, 0.6, 3, 0.6},
    visual = "mesh",
    mesh = "demon.b3d",
    textures = {
       {"demon.png"},
    },
-   blood_amount = 60,
+   blood_amount = 80,
    blood_texture = "horror_blood_effect.png",
    visual_size = {x=3.5, y=3},
    makes_footstep_sound = true,
