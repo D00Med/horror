@@ -462,8 +462,8 @@ mobs:register_mob("horror:dragon", {
    jump = true,
    fly = true,
    drops = {
-      {name = "mobs:lava_orb", chance = 50, min = 1, max = 3},
-      {name = "default:diamond", chance = 50, min = 1, max = 3},
+      {name = "mobs:lava_orb", chance = 2, min = 1, max = 3},
+      {name = "default:diamond", chance = 2, min = 1, max = 3},
    },
    fall_speed = 0,
    stepheight = 10,
