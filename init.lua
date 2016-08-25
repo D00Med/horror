@@ -3,6 +3,34 @@ if minetest.get_modpath("mobs") then
 dofile(minetest.get_modpath("horror").."/mobs.lua")
 end
 
+--flint and steel override(not included in the license since it's only changing the node placed)
+
+minetest.override_item("fire:flint_and_steel", {
+	description = "Flint and Steel",
+	inventory_image = "fire_flint_steel.png",
+	on_use = function(itemstack, user, pointed_thing)
+		local player_name = user:get_player_name()
+		local pt = pointed_thing
+
+		if pt.type == "node" and minetest.get_node(pt.above).name == "air" then
+			itemstack:add_wear(1000)
+			local node_under = minetest.get_node(pt.under).name
+
+			if minetest.get_item_group(node_under, "flammable") >= 1 then
+				if not minetest.is_protected(pt.above, player_name) then
+					minetest.set_node(pt.above, {name = "horror:fire"})
+				else
+					minetest.chat_send_player(player_name, "This area is protected")
+				end
+			end
+		end
+
+		if not minetest.setting_getbool("creative_mode") then
+			return itemstack
+		end
+	end
+})
+
 
 --new style, set to false for the nodebox candle and candlestick
 local new_style = true
@@ -446,10 +474,20 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(...)
-		minetest.sound_play({name="clock"}, 
-		{max_hear_distance = 1, loop = false})
+		minetest.sound_play("clock", 
+		{gain = 3, max_hear_distance = 1, loop = false})
 	end
 })
+
+-- minetest.register_abm({
+	-- nodenames = {"horror:radio"},
+	-- interval = 143.0,
+	-- chance = 1,
+	-- action = function(...)
+		-- minetest.sound_play("Undersea_Garden", 
+		-- {gain = 2, max_hear_distance = 1, loop = false})
+	-- end
+-- })
 
 minetest.register_abm({
 	nodenames = {"horror:roach_spawner"},
@@ -575,7 +613,7 @@ minetest.register_node("horror:fire", {
 ,
 	inventory_image = "horror_fire_inv.png",
 	wield_image = "horror_fire_inv.png",
-	groups = {crumbly=1, oddly_breakable_by_hand=1, dig_immediate=1},
+	groups = {crumbly=1, oddly_breakable_by_hand=1, dig_immediate=3},
 })
 
 minetest.register_node("horror:gfire", {
@@ -1178,6 +1216,46 @@ minetest.register_node("horror:fence", {
 	}
 })
 
+minetest.register_node("horror:tree", {
+	description = "Dead tree",
+	drawtype = "plantlike",
+	tiles = {"horror_tree.png"},
+	paramtype = "light",
+	is_ground_content = false,
+	buildable_to = true, 
+	sunlight_propagates = true,
+	inventory_image = "horror_tree.png",
+	visual_scale = 2,
+	wield_scale = {x=0.5, y=0.5, z=0.5},
+	groups = {choppy=1, oddly_breakable_by_hand=1, flammable=1, attatched_node=1},
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.3, -0.5, -0.3, 0.3, 1, 0.3}
+	},
+	drop = "default:wood",
+	walkable = true,
+})
+
+minetest.register_node("horror:cactus", {
+	description = "Prickly Pear",
+	drawtype = "plantlike",
+	tiles = {"horror_cactus.png"},
+	paramtype = "light",
+	is_ground_content = false,
+	buildable_to = true, 
+	sunlight_propagates = true,
+	inventory_image = "horror_cactus.png",
+	visual_scale = 2,
+	wield_scale = {x=0.5, y=0.5, z=0.5},
+	groups = {choppy=1, oddly_breakable_by_hand=1, flammable=1, attatched_node=1},
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.3, -0.5, -0.3, 0.3, 1, 0.3}
+	},
+	damage_per_second = 1,
+	walkable = true,
+})
+
 minetest.register_node("horror:radio", {
 	description = "radio",
 	tiles = {
@@ -1192,6 +1270,10 @@ minetest.register_node("horror:radio", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {oddly_breakable_by_hand=1},
+	on_rightclick = function(pos)
+		minetest.sound_play("Undersea_Garden", 
+		{gain = 0.5, max_hear_distance = 1, loop = false})
+	end,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -1840,7 +1922,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = 'horror:gargoyle_fountain',
+	output = 'horror:fountain',
 	recipe = {
 		{'', '', ''},
 		{'default:stone', 'bucket:bucket_water', ''},

@@ -54,6 +54,9 @@ mobs:register_arrow("horror:fireball_2", {
    end,
 })
 
+local destructive = false
+
+if destructive == true then
 mobs:register_arrow("horror:fireball_3", {
    visual = "sprite",
    visual_size = {x = 1, y = 1},
@@ -81,13 +84,13 @@ mobs:register_arrow("horror:fireball_3", {
    end,
 })
 
-mobs:register_arrow("horror:fireball_4", {
+mobs:register_arrow("horror:rocket", {
    visual = "sprite",
-   visual_size = {x = 1, y = 1},
-   textures = {"horror_plasma.png"},
-   velocity = 6,
-   tail = 0, -- enable tail
-   tail_texture = "horror_steam.png",
+   visual_size = {x = 0.5, y = 0.5},
+   textures = {"horror_rocket.png"},
+   velocity = 8,
+   tail = 1, -- enable tail
+   tail_texture = "horror_rocket_smoke.png",
 
    hit_player = function(self, player)
       player:punch(self.object, 1.0, {
@@ -100,6 +103,34 @@ mobs:register_arrow("horror:fireball_4", {
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
          damage_groups = {fleshy = 3},
+      }, nil)
+   end,
+
+   hit_node = function(self, pos, node)
+      mobs:explosion(pos, 2, 1, 1)
+   end,
+})
+else
+
+mobs:register_arrow("horror:fireball_3", {
+   visual = "sprite",
+   visual_size = {x = 1, y = 1},
+   textures = {"horror_fireshot.png"},
+   velocity = 3,
+   tail = 1, -- enable tail
+   tail_texture = "horror_flame2.png",
+
+   hit_player = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 2},
+      }, nil)
+   end,
+   
+   hit_mob = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 2},
       }, nil)
    end,
 
@@ -131,9 +162,39 @@ mobs:register_arrow("horror:rocket", {
    end,
 
    hit_node = function(self, pos, node)
-      mobs:explosion(pos, 2, 1, 1)
+      self.object:remove()
    end,
 })
+end
+
+mobs:register_arrow("horror:fireball_4", {
+   visual = "sprite",
+   visual_size = {x = 1, y = 1},
+   textures = {"horror_plasma.png"},
+   velocity = 6,
+   tail = 0, -- enable tail
+   tail_texture = "horror_steam.png",
+
+   hit_player = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 3},
+      }, nil)
+   end,
+   
+   hit_mob = function(self, player)
+      player:punch(self.object, 1.0, {
+         full_punch_interval = 1.0,
+         damage_groups = {fleshy = 3},
+      }, nil)
+   end,
+
+   hit_node = function(self, pos, node)
+      self.object:remove()
+   end,
+})
+
+
 --mobs, eggs and spawning
 mobs:register_mob("horror:centipede_body", {
 	type = "npc",
@@ -293,8 +354,8 @@ mobs:register_mob("horror:spider", {
 	},
 	jump = true,
 	drops = {
-		{name = "mobs:meat_raw", chance = 10, min = 1, max = 1},
-		{name = "farming:cotton", chance = 10, min = 3, max = 6},
+		{name = "mobs:meat_raw", chance = 2, min = 1, max = 1},
+		{name = "farming:cotton", chance = 1, min = 3, max = 6},
 	},
 	water_damage = 0,
 	lava_damage = 2,
@@ -377,16 +438,16 @@ mobs:register_egg("horror:ghost", "Ghost", "default_snow.png", 1)
 mobs:register_mob("horror:cyberdemon", {
 	type = "monster",
 	passive = false,
-	reach = 3,
+	reach = 6,
 	damage = 2,
 	attack_type = "shoot",
-   shoot_interval = 3.5,
+   shoot_interval = 1.5,
    arrow = "horror:rocket",
    shoot_offset = -1,
 	hp_min = 102,
 	hp_max = 112,
-	armor = 130,
-	collisionbox = {-0.7, 0, -0.7, 0.7, 6.5, 0.7},
+	armor = 100,
+	collisionbox = {-0.8, 0, -0.8, 0.8, 6.5, 0.8},
 	visual = "mesh",
 	mesh = "cyberdemon.b3d",
 	textures = {
@@ -404,7 +465,7 @@ mobs:register_mob("horror:cyberdemon", {
 	},
 	jump = true,
 	drops = {
-		{name = "default:mese", chance = 1, min = 1, max = 1},
+		{name = "default:mese", chance = 2, min = 1, max = 1},
 		{name = "mobs:meat_raw", chance = 1, min = 3, max = 5},
 	},
 	water_damage = 0,
@@ -494,7 +555,7 @@ mobs:register_mob("horror:skull", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 8,
+   damage = 1,
    reach = 3,
    attack_type = "dogfight",
    shoot_interval = 2.5,
