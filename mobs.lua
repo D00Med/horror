@@ -675,7 +675,7 @@ mobs:register_mob("horror:mogall", {
    type = "monster",
    passive = false,
    attacks_monsters = true,
-   damage = 8,
+   damage = 2,
    reach = 3,
    attack_type = "dogfight",
    shoot_interval = 2.5,
@@ -996,7 +996,7 @@ mobs:register_mob("horror:werewolf", {
    run_velocity = 3.5,
    jump = true,
    drops = {
-      {name = "default:papyrus", chance = 1, min = 1, max = 6},
+      {name = "default:papyrus", chance = 3, min = 1, max = 6},
    },
    water_damage = 2,
    lava_damage = 0,
@@ -1146,7 +1146,7 @@ mobs:register_mob("horror:pinky", {
    run_velocity = 4,
    jump = true,
    drops = {
-      {name = "horror:flesh", chance = 1, min = 1, max = 1},
+      {name = "horror:animflesh", chance = 2, min = 2, max = 3},
    },
    water_damage = 0,
    lava_damage = 0,
