@@ -473,9 +473,12 @@ minetest.register_abm({
 	nodenames = {"horror:clock"},
 	interval = 1.0,
 	chance = 1,
-	action = function(...)
+	action = function(pos, node)
 		minetest.sound_play("clock", 
 		{gain = 3, max_hear_distance = 1, loop = false})
+		local meta = minetest.get_meta(pos)
+		local time1 = minetest.get_timeofday()*24000
+		meta:set_string("infotext", "time:"..time1)
 	end
 })
 
@@ -513,8 +516,47 @@ minetest.register_abm({
 	end
 })
 
+minetest.register_abm({
+	nodenames = {"horror:cactus"},
+	interval = 10,
+	chance = 150,
+	action = function(pos, node)
+		local num = math.random(1,4)
+		if minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "air" or minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "horror:cactus" then
+		minetest.env:set_node({x=pos.x, y=pos.y-1, z=pos.z}, {name="horror:cactus"})
+		minetest.env:remove_node(pos)
+		end
+		if num == 1 then
+		if minetest.get_node({x=pos.x-2, y=pos.y, z=pos.z}).name == "air" then
+		minetest.env:set_node({x=pos.x-2, y=pos.y, z=pos.z}, {name="horror:cactus"})
+		end
+		elseif num == 2 then
+		if minetest.get_node({x=pos.x+2, y=pos.y, z=pos.z}).name == "air" then
+		minetest.env:set_node({x=pos.x+2, y=pos.y, z=pos.z}, {name="horror:cactus"})
+		end
+		elseif num == 3 then
+		if minetest.get_node({x=pos.x, y=pos.y, z=pos.z-2}).name == "air" then
+		minetest.env:set_node({x=pos.x, y=pos.y, z=pos.z-2}, {name="horror:cactus"})
+		end
+		elseif num == 4 then
+		if minetest.get_node({x=pos.x, y=pos.y, z=pos.z+2}).name == "air" then
+		minetest.env:set_node({x=pos.x, y=pos.y, z=pos.z+2}, {name="horror:cactus"})
+		end
+		end
+	end
+})
+
 --nodes
 
+minetest.register_node("horror:bookshelf", {
+	description = "Bookshelf (fake)",
+	tiles = {"default_wood.png", "default_wood.png", "default_bookshelf.png"},
+	is_ground_content = false,
+	walkable = false,
+	drop = "default:bookshelf",
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	sounds = default.node_sound_wood_defaults(),
+})
 
 minetest.register_node("horror:gargoyle2", {
 	description = "Small gargoyle",
@@ -1173,7 +1215,7 @@ minetest.register_node("horror:clock", {
 			{-0.3125, 0.25, -0.1875, 0.3125, 0.5, 0.1875}, -- NodeBox2
 			{-0.4375, -0.5, -0.3125, 0.4375, -0.4375, 0.3125}, -- NodeBox3
 		}
-	}
+	},
 })
 
 minetest.register_node("horror:knife", {
@@ -1334,7 +1376,7 @@ minetest.register_node("horror:cactus", {
 	inventory_image = "horror_cactus.png",
 	visual_scale = 2,
 	wield_scale = {x=0.5, y=0.5, z=0.5},
-	groups = {choppy=1, oddly_breakable_by_hand=1, flammable=1, attatched_node=1},
+	groups = {choppy=1, oddly_breakable_by_hand=1, flammable=1, falling_node=1},
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 1, 0.5}
@@ -1784,6 +1826,13 @@ minetest.register_tool("horror:pitchfork", {
 	},
 })
 
+--craftitems
+
+minetest.register_craftitem("horror:ring", {
+	description = "Ghosts Ring",
+	inventory_image = "horror_ring.png"
+})
+
 --crafting
 minetest.register_craft({
 	output = 'horror:lantern',
@@ -1816,6 +1865,13 @@ minetest.register_craft({
 		{'', '', ''},
 		{'', 'default:torch', ''},
 		{'', 'default:copper_ingot', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'horror:bookshelf',
+	recipe = {
+		{'default:bookshelf'},
 	}
 })
 
