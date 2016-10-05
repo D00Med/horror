@@ -31,6 +31,8 @@ minetest.override_item("fire:flint_and_steel", {
 	end
 })
 
+--dark setting
+dark = false
 
 --new style, set to false for the nodebox candle and candlestick
 local new_style = true
@@ -40,7 +42,7 @@ horror = {}
 
 --Vignette overlay from Vignette mod by TriBlade9(license MIT)
 --permanent dawn
-
+if dark == true then
 minetest.register_on_joinplayer(function(player)
 	minetest.after(0,function()
 		player:override_day_night_ratio(0.41)
@@ -55,7 +57,7 @@ minetest.register_on_joinplayer(function(player)
     text = "horror_hud.png"
   })
 end)
-
+end
 --drop head on death
 
 minetest.register_on_dieplayer(function(player)
