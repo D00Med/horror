@@ -61,7 +61,7 @@ mobs:register_arrow("horror:fireball_3", {
    visual = "sprite",
    visual_size = {x = 1, y = 1},
    textures = {"horror_fireshot.png"},
-   velocity = 3,
+   velocity = 5,
    tail = 1, -- enable tail
    tail_texture = "horror_flame2.png",
 

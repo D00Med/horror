@@ -4,7 +4,7 @@ dofile(minetest.get_modpath("horror").."/mobs.lua")
 end
 
 --flint and steel override(not included in the license since it's only changing the node placed)
-
+if minetest.registered_items["fire:flint_and_steel"] then
 minetest.override_item("fire:flint_and_steel", {
 	description = "Flint and Steel",
 	inventory_image = "fire_flint_steel.png",
@@ -13,7 +13,7 @@ minetest.override_item("fire:flint_and_steel", {
 		local pt = pointed_thing
 
 		if pt.type == "node" and minetest.get_node(pt.above).name == "air" then
-			itemstack:add_wear(1000)
+			itemstack:add_wear(14)
 			local node_under = minetest.get_node(pt.under).name
 
 			if minetest.get_item_group(node_under, "flammable") >= 1 then
@@ -30,9 +30,55 @@ minetest.override_item("fire:flint_and_steel", {
 		end
 	end
 })
+end
+
+--sounds and weird_stuff
+local sounds = true
+local weird_stuff = false
+
+minetest.register_globalstep(function()
+	if math.random(1,1000) == 1 and sounds then
+		local sound = math.random(1,7)
+		minetest.sound_play(sound, 
+		{gain = 0.4, max_hear_distance = 1, loop = false})
+	end
+	
+	if weird_stuff and math.random(1, 10000) == 1 then
+		if math.random(1,4) == 1 then
+			minetest.request_shutdown("bye bye!",false)
+		else
+			minetest.chat_send_all(". _*____")
+			minetest.chat_send_all(".|    ::;  | ")
+			minetest.chat_send_all(".|Oo  oO|")
+			minetest.chat_send_all(". | ||' |")
+			minetest.chat_send_all(".  |#||| ")
+			minetest.chat_send_all(". _*____")
+			minetest.chat_send_all(".|    ::;  | ")
+			minetest.chat_send_all(".|Oo  oO|")
+			minetest.chat_send_all(". | ||' |")
+			minetest.chat_send_all(".  |#||| ")
+			minetest.chat_send_all(". _*____")
+			minetest.chat_send_all(".|    ::;  | ")
+			minetest.chat_send_all(".|Oo  oO|")
+			minetest.chat_send_all(". | ||' |")
+			minetest.chat_send_all(".  |#||| ")
+			minetest.chat_send_all(". _*____")
+			minetest.chat_send_all(".|    ::;  | ")
+			minetest.chat_send_all(".|Oo  oO|")
+			minetest.chat_send_all(". | ||' |")
+			minetest.chat_send_all(".  |#||| ")
+			minetest.chat_send_all(". _*____")
+			minetest.chat_send_all(".|    ::;  | ")
+			minetest.chat_send_all(".|Oo  oO|")
+			minetest.chat_send_all(". | ||' |")
+			minetest.chat_send_all(".  |#||| ")
+		end
+	end
+end)
 
 --dark setting
-dark = false
+dark = true
+dark_dark = true
 
 --new style, set to false for the nodebox candle and candlestick
 local new_style = true
@@ -46,6 +92,9 @@ if dark == true then
 minetest.register_on_joinplayer(function(player)
 	minetest.after(0,function()
 		player:override_day_night_ratio(0.41)
+		if dark_dark then
+		player:set_sky({r=0, g=0, b=0}, "plain")
+		end
 	end)
 	player:hud_add({
     hud_elem_type = "image",
@@ -56,8 +105,31 @@ minetest.register_on_joinplayer(function(player)
     },
     text = "horror_hud.png"
   })
+	if weird_stuff and math.random(1,700) == 666 then
+		player:hud_add({
+		hud_elem_type = "image",
+		position = {x = 0.5, y = 0.5},
+		scale = {
+		x = -50,
+		y = -100
+		},
+		text = "horror_pentagram.png"
+		})
+		local name = player:get_player_name()
+		minetest.chat_send_all(name.." is posessed")
+		minetest.after(1, function()
+			player:set_sky({r=216, g=40, b=8}, "plain")
+		end)
+		minetest.after(50, function()
+			if player ~= nil then
+				local playerpos = player:getpos()
+				tnt.boom({x=playerpos.x, y=playerpos.y+1, z=playerpos.z}, {damage_radius=5,radius=4,ignore_protection=false, disable_playerdamage=false})
+			end
+		end)
+	end
 end)
 end
+
 --drop head on death
 
 minetest.register_on_dieplayer(function(player)
@@ -481,6 +553,10 @@ minetest.register_abm({
 		local meta = minetest.get_meta(pos)
 		local time1 = minetest.get_timeofday()*24000
 		meta:set_string("infotext", "time:"..time1)
+		if math.random(1,500) then
+		minetest.sound_play("clock_strikes_twelve", 
+		{gain = 1, max_hear_distance = 1, loop = false})
+		end
 	end
 })
 
@@ -717,7 +793,7 @@ minetest.register_node("horror:blood_splatter", {
 })
 
 minetest.register_node("horror:glowsteel_block", {
-	description = "glowsteel_block",
+	description = "Glow Steel",
 	tiles = {{
 	name="horror_glowsteel.png",
 	animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1.00},
@@ -729,8 +805,19 @@ minetest.register_node("horror:glowsteel_block", {
 	paramtype = "light"
 })
 
+minetest.register_node("horror:smashed_glass", {
+	description = "Smashed Glass",
+	tiles = {"default_glass.png^horror_glass_cracks.png",
+	},	
+	drawtype = "glasslike",
+	inventory_image = "default_glass.png^horror_glass_cracks.png",
+	groups = {cracky = 2, oddly_breakable_by_hand=1, dig_immediate=3},
+	paramtype = "light",
+	sounds = default.node_sound_glass_defaults()
+})
+
 minetest.register_node("horror:fire", {
-	description = "decorative fire",
+	description = "Decorative Fire",
 	drawtype = "plantlike",
 	sunlight_propagates = true,
 	paramtype = "light",
