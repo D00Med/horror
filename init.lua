@@ -39,10 +39,10 @@ local weird_stuff = false
 minetest.register_globalstep(function()
 	if math.random(1,1000) == 1 and sounds then
 		local sound = math.random(1,7)
-		minetest.sound_play(sound, 
+		minetest.sound_play(sound,
 		{gain = 0.4, max_hear_distance = 1, loop = false})
 	end
-	
+
 	if weird_stuff and math.random(1, 10000) == 1 then
 		if math.random(1,4) == 1 then
 			minetest.request_shutdown("bye bye!",false)
@@ -77,8 +77,8 @@ minetest.register_globalstep(function()
 end)
 
 --dark setting
-dark = true
-dark_dark = true
+local dark = true
+local dark_dark = true
 
 --new style, set to false for the nodebox candle and candlestick
 local new_style = true
@@ -88,7 +88,7 @@ horror = {}
 
 --Vignette overlay from Vignette mod by TriBlade9(license MIT)
 --permanent dawn
-if dark == true then
+if dark then
 minetest.register_on_joinplayer(function(player)
 	minetest.after(0,function()
 		player:override_day_night_ratio(0.41)
@@ -123,7 +123,10 @@ minetest.register_on_joinplayer(function(player)
 		minetest.after(50, function()
 			if player ~= nil then
 				local playerpos = player:getpos()
-				tnt.boom({x=playerpos.x, y=playerpos.y+1, z=playerpos.z}, {damage_radius=5,radius=4,ignore_protection=false, disable_playerdamage=false})
+				tnt.boom(
+					{x=playerpos.x, y=playerpos.y+1, z=playerpos.z},
+					{damage_radius=5,radius=4,ignore_protection=false, disable_playerdamage=false}
+				)
 			end
 		end)
 	end
@@ -168,7 +171,7 @@ minetest.register_node("horror:blood_flowing", {
 	liquidtype = "flowing",
 	liquid_alternative_flowing = "horror:blood_flowing",
 	liquid_alternative_source = "horror:bloodsource",
-	liquid_viscosity = WATER_VISC,
+	liquid_viscosity = 1,
 	freezemelt = "default:snow",
 	post_effect_color = {a=70, r=200, g=70, b=70},
 	groups = {liquid=3, puts_out_fire=1, not_in_creative_inventory=1, freezes=1, melt_around=1},
@@ -200,7 +203,7 @@ minetest.register_node("horror:bloodsource", {
 	liquidtype = "source",
 	liquid_alternative_flowing = "horror:blood_flowing",
 	liquid_alternative_source = "horror:bloodsource",
-	liquid_viscosity = WATER_VISC,
+	liquid_viscosity = 1,
 	freezemelt = "default:ice",
 	post_effect_color = {a=70, r=200, g=70, b=70},
 	groups = {liquid=3, puts_out_fire=1, freezes=1}
@@ -225,7 +228,7 @@ stairs.register_stair_and_slab("oldstone", "horror:stone",
 		"Old Stone Slab",
 		default.node_sound_wood_defaults())
 
-		
+
 --corners
 
 function horror.register_corner(name, desc, text, breakeable_by_hand)
@@ -304,7 +307,7 @@ minetest.register_node("horror:candlestick", {
 			{-0.125, 0.125, -0.0625, 0.125, 0.1875, 0.0625}, -- NodeBox16
 		}
 	}
-}) 
+})
 else
 minetest.register_node("horror:candlestick", {
 	description = "Candlestick",
@@ -325,7 +328,7 @@ minetest.register_node("horror:candlestick", {
 			{-0.25, -0.5, -0.25, 0.25, 0.4375, 0.25},
 	}
 	},
-}) 
+})
 end
 
 
@@ -375,21 +378,36 @@ minetest.register_node("horror:candle", {
 			{-0.25, -0.5, -0.25, 0.25, 0.3, 0.25},
 	}
 	},
-}) 
+})
 end
 
 --ABMs
+
+local punch_entities = {}
+punch_entities["horror:ghost"] = true
+punch_entities["horror:centipede"] = true
+punch_entities["horror:spider"] = true
+punch_entities["horror:demon"] = true
+punch_entities["horror:pinky"] = true
+punch_entities["horror:skull"] = true
+punch_entities["horror:mancubus"] = true
+punch_entities["horror:manticore"] = true
+punch_entities["horror:shadow"] = true
+punch_entities["horror:cacodemon"] = true
+punch_entities["horror:mogall"] = true
+punch_entities["creatures:zombie"] = true
+
 
 minetest.register_abm({
 	nodenames = {"horror:sunorb", "horror:gloworb"},
 	interval = 5,
 	chance = 1,
 	action = function(pos)
-		local objs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y,z=pos.z}, 5)	
-			for k, obj in pairs(objs) do
+		local objs = minetest.get_objects_inside_radius({x=pos.x,y=pos.y,z=pos.z}, 5)
+			for _, obj in pairs(objs) do
 				if obj:get_luaentity() ~= nil then
 					local ent = obj:get_luaentity().name
-					if ent == "horror:ghost" or ent == "horror:centipede" or ent == "horror:spider" or ent == "horror:demon" or ent == "horror:pinky" or ent == "horror:skull" or ent == "horror:mancubus" or ent == "horror:manticore" or ent == "horror:shadow" or ent == "horror:cacodemon" or ent == "horror:mogall" or ent == "creatures:zombie" then
+					if punch_entities[ent] then
 						obj:punch(obj, 0.5, {
 							full_punch_interval=0.5,
 							damage_groups={fleshy=4},
@@ -414,7 +432,7 @@ minetest.register_abm({
 	nodenames = {"horror:fire"},
 	interval = 1,
 	chance = 2,
-	action = function(pos, node)
+	action = function(pos)
 		minetest.add_particlespawner({
 			amount = 30,
 			time = 4,
@@ -448,7 +466,7 @@ minetest.register_abm({
 	nodenames = {"horror:lantern"},
 	interval = 1,
 	chance = 2,
-	action = function(pos, node)
+	action = function(pos)
 		minetest.add_particlespawner({
 			amount = 10,
 			time = 4,
@@ -472,7 +490,7 @@ minetest.register_abm({
 	nodenames = {"horror:fountain"},
 	interval = 1,
 	chance = 2,
-	action = function(pos, node)
+	action = function(pos)
 		minetest.add_particlespawner({
 			amount = 59,
 			time = 4,
@@ -497,7 +515,7 @@ minetest.register_abm({
 	nodenames = {"horror:flames"},
 	interval = 3,
 	chance = 1,
-	action = function(pos, node)
+	action = function(pos)
 		minetest.add_particlespawner({
 			amount = 70,
 			time = 4,
@@ -522,7 +540,7 @@ minetest.register_abm({
 	nodenames = {"horror:head"},
 	interval = 2,
 	chance = 5,
-	action = function(pos, node)
+	action = function(pos)
 		minetest.add_particlespawner({
 			amount = 2,
 			time = 4,
@@ -547,14 +565,14 @@ minetest.register_abm({
 	nodenames = {"horror:clock"},
 	interval = 1.0,
 	chance = 1,
-	action = function(pos, node)
-		minetest.sound_play("clock", 
+	action = function(pos)
+		minetest.sound_play("clock",
 		{gain = 3, max_hear_distance = 1, loop = false})
 		local meta = minetest.get_meta(pos)
 		local time1 = minetest.get_timeofday()*24000
 		meta:set_string("infotext", "time:"..time1)
 		if math.random(1,500) then
-		minetest.sound_play("clock_strikes_twelve", 
+		minetest.sound_play("clock_strikes_twelve",
 		{gain = 1, max_hear_distance = 1, loop = false})
 		end
 	end
@@ -565,7 +583,7 @@ minetest.register_abm({
 	-- interval = 143.0,
 	-- chance = 1,
 	-- action = function(...)
-		-- minetest.sound_play("Undersea_Garden", 
+		-- minetest.sound_play("Undersea_Garden",
 		-- {gain = 2, max_hear_distance = 1, loop = false})
 	-- end
 -- })
@@ -574,7 +592,7 @@ minetest.register_abm({
 	nodenames = {"horror:roach_spawner"},
 	interval = 2,
 	chance = 2,
-	action = function(pos, node)
+	action = function(pos)
 		minetest.add_particlespawner({
 			amount = 10,
 			time = 4,
@@ -598,28 +616,29 @@ minetest.register_abm({
 	nodenames = {"horror:cactus"},
 	interval = 10,
 	chance = 150,
-	action = function(pos, node)
+	action = function(pos)
 		local num = math.random(1,4)
-		if minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "air" or minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "horror:cactus" then
-		minetest.env:set_node({x=pos.x, y=pos.y-1, z=pos.z}, {name="horror:cactus"})
-		minetest.env:remove_node(pos)
+		if minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "air" or
+			minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "horror:cactus" then
+			minetest.env:set_node({x=pos.x, y=pos.y-1, z=pos.z}, {name="horror:cactus"})
+			minetest.env:remove_node(pos)
 		end
 		if num == 1 then
-		if minetest.get_node({x=pos.x-2, y=pos.y, z=pos.z}).name == "air" then
-		minetest.env:set_node({x=pos.x-2, y=pos.y, z=pos.z}, {name="horror:cactus"})
-		end
+			if minetest.get_node({x=pos.x-2, y=pos.y, z=pos.z}).name == "air" then
+				minetest.env:set_node({x=pos.x-2, y=pos.y, z=pos.z}, {name="horror:cactus"})
+			end
 		elseif num == 2 then
-		if minetest.get_node({x=pos.x+2, y=pos.y, z=pos.z}).name == "air" then
-		minetest.env:set_node({x=pos.x+2, y=pos.y, z=pos.z}, {name="horror:cactus"})
-		end
+			if minetest.get_node({x=pos.x+2, y=pos.y, z=pos.z}).name == "air" then
+				minetest.env:set_node({x=pos.x+2, y=pos.y, z=pos.z}, {name="horror:cactus"})
+			end
 		elseif num == 3 then
-		if minetest.get_node({x=pos.x, y=pos.y, z=pos.z-2}).name == "air" then
-		minetest.env:set_node({x=pos.x, y=pos.y, z=pos.z-2}, {name="horror:cactus"})
-		end
+			if minetest.get_node({x=pos.x, y=pos.y, z=pos.z-2}).name == "air" then
+				minetest.env:set_node({x=pos.x, y=pos.y, z=pos.z-2}, {name="horror:cactus"})
+			end
 		elseif num == 4 then
-		if minetest.get_node({x=pos.x, y=pos.y, z=pos.z+2}).name == "air" then
-		minetest.env:set_node({x=pos.x, y=pos.y, z=pos.z+2}, {name="horror:cactus"})
-		end
+			if minetest.get_node({x=pos.x, y=pos.y, z=pos.z+2}).name == "air" then
+				minetest.env:set_node({x=pos.x, y=pos.y, z=pos.z+2}, {name="horror:cactus"})
+			end
 		end
 	end
 })
@@ -688,7 +707,7 @@ minetest.register_node("horror:sunorb", {
 	tiles = {"horror_orb.png"},
 	inventory_image = "horror_orb.png",
 	paramtype = "light",
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	light_source = 2000,
 	alpha = 100,
 	walkable = false,
@@ -698,7 +717,7 @@ minetest.register_node("horror:sunorb", {
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0, 0.2}
 	},
 	groups = {cracky=3,dig_immediate=3},
-	after_place_node = function(pos, placer, itemstack)
+	after_place_node = function(pos, placer)
 		if placer:is_player() then
 			minetest.set_node(pos, {name="horror:sunorb", param2=1})
 		end
@@ -714,7 +733,7 @@ minetest.register_node("horror:pentagram", {
 	use_texture_alpha = true,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	light_source = 50,
 	walkable = false,
 	is_ground_content = true,
@@ -757,7 +776,7 @@ minetest.register_node("horror:portal", {
 	use_texture_alpha = true,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	light_source = 50,
 	walkable = false,
 	is_ground_content = true,
@@ -765,7 +784,7 @@ minetest.register_node("horror:portal", {
 		type = "wallmounted",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.4, 0.5}
 	},
-	on_construct = function(pos, node, _)
+	on_construct = function(pos)
 		minetest.after(1, function()
 		minetest.env:add_entity(pos, "horror:pinky")
 		minetest.remove_node(pos)
@@ -782,7 +801,7 @@ minetest.register_node("horror:blood_splatter", {
 	use_texture_alpha = true,
 	paramtype = "light",
 	paramtype2 = "wallmounted",
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	walkable = false,
 	is_ground_content = true,
 	selection_box = {
@@ -797,7 +816,7 @@ minetest.register_node("horror:glowsteel_block", {
 	tiles = {{
 	name="horror_glowsteel.png",
 	animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1.00},
-	}},	
+	}},
 	inventory_image = "horror_glowsteelinv.png",
 	groups = {cracky = 2},
 	sunlight_propagates = true,
@@ -808,7 +827,7 @@ minetest.register_node("horror:glowsteel_block", {
 minetest.register_node("horror:smashed_glass", {
 	description = "Smashed Glass",
 	tiles = {"default_glass.png^horror_glass_cracks.png",
-	},	
+	},
 	drawtype = "glasslike",
 	inventory_image = "default_glass.png^horror_glass_cracks.png",
 	groups = {cracky = 2, oddly_breakable_by_hand=1, dig_immediate=3},
@@ -944,7 +963,7 @@ minetest.register_node("horror:lavastone", {
 	animation={type="vertical_frames", aspect_w=32, aspect_h=32, length=1.00},
 	}},
 	inventory_image = "horror_fire_inv.png",
-	wield_image = "horror_fire_inv.png",	
+	wield_image = "horror_fire_inv.png",
 	groups = {cracky=1}
 })
 
@@ -955,7 +974,7 @@ minetest.register_node("horror:animflesh", {
 	animation={type="vertical_frames", aspect_w=32, aspect_h=32, length=1.00},
 	}},
 	inventory_image = "horror_flesh.png",
-	wield_image = "horror_flesh.png",	
+	wield_image = "horror_flesh.png",
 	groups = {fleshy=1, dig_immediate=3, oddly_breakable_by_hand=1}
 })
 
@@ -1280,7 +1299,7 @@ minetest.register_node("horror:candle", {
 			{-0.25, -0.5, -0.25, 0.25, 0.3, 0.25},
 	}
 	},
-}) 
+})
 end
 
 minetest.register_node("horror:clock", {
@@ -1440,7 +1459,7 @@ minetest.register_node("horror:tree", {
 	tiles = {"horror_tree.png"},
 	paramtype = "light",
 	is_ground_content = false,
-	buildable_to = true, 
+	buildable_to = true,
 	sunlight_propagates = true,
 	inventory_image = "horror_tree.png",
 	visual_scale = 2,
@@ -1460,7 +1479,7 @@ minetest.register_node("horror:cactus", {
 	tiles = {"horror_cactus.png"},
 	paramtype = "light",
 	is_ground_content = false,
-	buildable_to = true, 
+	buildable_to = true,
 	sunlight_propagates = true,
 	inventory_image = "horror_cactus.png",
 	visual_scale = 2,
@@ -1488,8 +1507,8 @@ minetest.register_node("horror:radio", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {oddly_breakable_by_hand=1},
-	on_rightclick = function(pos)
-		minetest.sound_play("Undersea_Garden", 
+	on_rightclick = function()
+		minetest.sound_play("Undersea_Garden",
 		{gain = 0.5, max_hear_distance = 1, loop = false})
 	end,
 	node_box = {
@@ -1538,7 +1557,7 @@ minetest.register_node("horror:roach", {
 	tiles = {"horror_roach.png"},
 	inventory_image = "horror_roach.png",
 	paramtype = "light",
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	walkable = false,
 	is_ground_content = true,
 	selection_box = {
@@ -1556,7 +1575,7 @@ minetest.register_node("horror:head", {
 	tiles = {"horror_head.png"},
 	inventory_image = "horror_head.png",
 	paramtype = "light",
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	walkable = true,
 	is_ground_content = false,
 	selection_box = {
@@ -1574,7 +1593,7 @@ minetest.register_node("horror:flames", {
 	tiles = {"horror_flame.png"},
 	inventory_image = "horror_flame.png",
 	paramtype = "light",
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	light_source = 50,
 	walkable = false,
 	is_ground_content = false,

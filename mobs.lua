@@ -14,7 +14,7 @@ mobs:register_arrow("horror:fireball", {
          damage_groups = {fleshy = 3},
       }, nil)
    end,
-   
+
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
@@ -22,7 +22,7 @@ mobs:register_arrow("horror:fireball", {
       }, nil)
    end,
 
-   hit_node = function(self, pos, node)
+   hit_node = function(self)
       self.object:remove()
    end,
 })
@@ -41,7 +41,7 @@ mobs:register_arrow("horror:fireball_2", {
          damage_groups = {fleshy = 2},
       }, nil)
    end,
-   
+
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
@@ -49,7 +49,7 @@ mobs:register_arrow("horror:fireball_2", {
       }, nil)
    end,
 
-   hit_node = function(self, pos, node)
+   hit_node = function(self)
       self.object:remove()
    end,
 })
@@ -71,7 +71,7 @@ mobs:register_arrow("horror:fireball_3", {
          damage_groups = {fleshy = 2},
       }, nil)
    end,
-   
+
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
@@ -79,7 +79,7 @@ mobs:register_arrow("horror:fireball_3", {
       }, nil)
    end,
 
-   hit_node = function(self, pos, node)
+   hit_node = function(_, pos)
       mobs:explosion(pos, 1, 1, 1)
    end,
 })
@@ -98,7 +98,7 @@ mobs:register_arrow("horror:rocket", {
          damage_groups = {fleshy = 3},
       }, nil)
    end,
-   
+
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
@@ -106,7 +106,7 @@ mobs:register_arrow("horror:rocket", {
       }, nil)
    end,
 
-   hit_node = function(self, pos, node)
+   hit_node = function(_, pos)
       mobs:explosion(pos, 2, 1, 1)
    end,
 })
@@ -126,7 +126,7 @@ mobs:register_arrow("horror:fireball_3", {
          damage_groups = {fleshy = 2},
       }, nil)
    end,
-   
+
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
@@ -134,7 +134,7 @@ mobs:register_arrow("horror:fireball_3", {
       }, nil)
    end,
 
-   hit_node = function(self, pos, node)
+   hit_node = function(self)
       self.object:remove()
    end,
 })
@@ -153,7 +153,7 @@ mobs:register_arrow("horror:rocket", {
          damage_groups = {fleshy = 3},
       }, nil)
    end,
-   
+
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
@@ -161,7 +161,7 @@ mobs:register_arrow("horror:rocket", {
       }, nil)
    end,
 
-   hit_node = function(self, pos, node)
+   hit_node = function(self)
       self.object:remove()
    end,
 })
@@ -181,7 +181,7 @@ mobs:register_arrow("horror:fireball_4", {
          damage_groups = {fleshy = 3},
       }, nil)
    end,
-   
+
    hit_mob = function(self, player)
       player:punch(self.object, 1.0, {
          full_punch_interval = 1.0,
@@ -189,7 +189,7 @@ mobs:register_arrow("horror:fireball_4", {
       }, nil)
    end,
 
-   hit_node = function(self, pos, node)
+   hit_node = function(self)
       self.object:remove()
    end,
 })
@@ -249,7 +249,7 @@ mobs:register_mob("horror:hellbaron", {
 })
 
 mobs:register_spawn("horror:hellbaron", {"default:lava_source", "default:stone"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:hellbaron", "Hell Baron", "default_dirt.png", 1)
 
 mobs:register_mob("horror:centipede_body", {
@@ -331,7 +331,7 @@ mobs:register_mob("horror:centipede_head", {
 
                 -- get head position and define a few temp variables
                 local pos = self.object:getpos()
-                local obj, obj2, ent
+                local obj, obj2, obj3, obj4, obj5, obj6, ent
 
                 -- add body and make it follow head
                 obj = minetest.add_entity({x=pos.x+1, y=pos.y, z=pos.z}, "horror:centipede_body")
@@ -471,7 +471,7 @@ mobs:register_mob("horror:ghost", {
 	on_rightclick = function(self, clicker)
 		local item = clicker:get_wielded_item():get_name()
 		if item == "horror:ring" then
-				pos = self.object:getpos()
+				local pos = self.object:getpos()
 				local obj = minetest.env:add_entity(pos, "horror:ghost_friendly")
 				local ghost = obj:get_luaentity()
 				ghost.tamed = true
@@ -551,7 +551,10 @@ mobs:register_mob("horror:ghost_friendly", {
 	},
 })
 
-mobs:register_spawn("horror:ghost", {"default:snowblock","default:sand", "default:dirt_with_snow"}, 20, 0, 15000, 2, 31000)
+mobs:register_spawn("horror:ghost",
+  {"default:snowblock","default:sand", "default:dirt_with_snow"},
+  20, 0, 15000, 2, 31000
+)
 
 mobs:register_egg("horror:ghost", "Ghost", "default_snow.png", 1)
 
@@ -715,7 +718,7 @@ mobs:register_mob("horror:dragon", {
 })
 
 mobs:register_spawn("horror:dragon", {"default:pine_needles",}, 20, 0, 35000, 200, 31000)
-   
+
 mobs:register_egg("horror:dragon", "Zombie Dragon", "horror_orb.png", 1)
 
 
@@ -747,7 +750,7 @@ mobs:register_mob("horror:skull", {
    fly = true,
    do_custom = function(self)
    local apos = self.object:getpos()
-		local part = minetest.add_particlespawner(
+		 minetest.add_particlespawner(
 			12, --amount
 			0.3, --time
 			{x=apos.x-0.3, y=apos.y+0.6, z=apos.z-0.3}, --minpos
@@ -785,7 +788,7 @@ mobs:register_mob("horror:skull", {
 })
 
 mobs:register_spawn("horror:skull", {"fire:basic_flame","default:leaves"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:skull", "Lost Soul", "horror_gfire_inv.png", 1)
 
 mobs:register_mob("horror:cacodemon", {
@@ -836,7 +839,7 @@ mobs:register_mob("horror:cacodemon", {
 })
 
 mobs:register_spawn("horror:cacodemon", {"fire:basic_flame","default:lava_flowing"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:cacodemon", "Cacodemon", "wool_red.png", 1)
 
 mobs:register_mob("horror:mogall", {
@@ -887,7 +890,7 @@ mobs:register_mob("horror:mogall", {
 })
 
 mobs:register_spawn("horror:mogall", {"default:jungleleaves",}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:mogall", "Mogall", "horror_stone.png", 1)
 
 mobs:register_mob("horror:shadow", {
@@ -925,7 +928,7 @@ mobs:register_mob("horror:shadow", {
    view_range = 30,
    do_custom = function(self)
    local apos = self.object:getpos()
-		local part = minetest.add_particlespawner(
+		minetest.add_particlespawner(
 			1, --amount
 			0.3, --time
 			{x=apos.x-0.3, y=apos.y+0.3, z=apos.z-0.3}, --minpos
@@ -957,7 +960,7 @@ mobs:register_mob("horror:shadow", {
 })
 
 mobs:register_spawn("horror:shadow", {"default:snow", "default:pine_needles"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:shadow", "Shadow elemental", "default_obsidian.png", 1)
 
 
@@ -987,7 +990,7 @@ mobs:register_mob("horror:mothman", {
    fly = true,
    do_custom = function(self)
    local apos = self.object:getpos()
-		local part = minetest.add_particlespawner(
+		minetest.add_particlespawner(
 			1, --amount
 			0.3, --time
 			{x=apos.x-0.3, y=apos.y-0.3, z=apos.z-0.3}, --minpos
@@ -1025,7 +1028,7 @@ mobs:register_mob("horror:mothman", {
 })
 
 mobs:register_spawn("horror:mothman", {"horror:lantern", "default:aspen_leaves"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:mothman", "Mothman", "horror_orb.png", 1)
 
 
@@ -1074,7 +1077,7 @@ mobs:register_mob("horror:manticore", {
 })
 
 mobs:register_spawn("horror:manticore", {"default:dirt_with_grass","default:mossycobble"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:manticore", "Manticore", "default_dirt.png", 1)
 
 
@@ -1131,7 +1134,7 @@ mobs:register_mob("horror:imp", {
 })
 
 mobs:register_spawn("horror:imp", {"default:dirt","horror:mud","default:gravel"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:imp", "Imp", "default_dirt.png", 1)
 
 mobs:register_mob("horror:werewolf", {
@@ -1184,8 +1187,11 @@ mobs:register_mob("horror:werewolf", {
    },
 })
 
-mobs:register_spawn("horror:werewolf", {"default:dirt_with_grass","horror:mud","default:gravel"}, 20, 0, 35000, 2, 31000)
-   
+mobs:register_spawn("horror:werewolf",
+  {"default:dirt_with_grass","horror:mud","default:gravel"},
+  20, 0, 35000, 2, 31000
+)
+
 mobs:register_egg("horror:werewolf", "Werewolf", "default_gravel.png", 1)
 
 mobs:register_mob("horror:mancubus", {
@@ -1239,7 +1245,7 @@ mobs:register_mob("horror:mancubus", {
 })
 
 mobs:register_spawn("horror:mancubus", {"default:stone","default:sand"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:mancubus", "Mancubus", "default_sand.png", 1)
 
 mobs:register_mob("horror:birdie", {
@@ -1287,7 +1293,7 @@ mobs:register_mob("horror:birdie", {
 })
 
 mobs:register_spawn("horror:birdie", {"default:dirt_with_grass","default:dirt_with_dry_grass"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:birdie", "Birdie", "default_dirt.png", 1)
 
 mobs:register_mob("horror:pinky", {
@@ -1335,7 +1341,7 @@ mobs:register_mob("horror:pinky", {
 })
 
 mobs:register_spawn("horror:pinky", {"default:sandstone_brick","nether:stone"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:pinky", "Pinky", "horror_flesh.png", 1)
 
 mobs:register_mob("horror:demon", {
@@ -1383,7 +1389,7 @@ mobs:register_mob("horror:demon", {
 })
 
 mobs:register_spawn("horror:demon", {"default:stone","default:lava_flowing"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:demon", "Demon", "default_dirt.png", 1)
 
 mobs:register_mob("horror:armour", {
@@ -1427,7 +1433,7 @@ mobs:register_mob("horror:armour", {
 })
 
 mobs:register_spawn("horror:armour", {"default:mossycobble","default:sandstone_brick"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:armour", "Axe Armour", "default_stone.png", 1)
 
 mobs:register_mob("horror:sam", {
@@ -1473,5 +1479,5 @@ mobs:register_mob("horror:sam", {
 })
 
 mobs:register_spawn("horror:sam", {"default:mossycobble","default:sandstone_brick"}, 20, 0, 15000, 2, 31000)
-   
+
 mobs:register_egg("horror:sam", "Sam Head", "default_brick.png", 1)
