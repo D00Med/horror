@@ -1,6 +1,30 @@
---other files
+
+local MP = minetest.get_modpath("horror")
+
+-- register mobs
 if minetest.get_modpath("mobs") then
-dofile(minetest.get_modpath("horror").."/mobs.lua")
+	dofile(MP.."/mobs/arrows.lua")
+	dofile(MP.."/mobs/hellbaron.lua")
+	dofile(MP.."/mobs/centipede.lua")
+	dofile(MP.."/mobs/spider.lua")
+	dofile(MP.."/mobs/ghost.lua")
+	dofile(MP.."/mobs/skeleton.lua")
+	dofile(MP.."/mobs/cyberdemon.lua")
+	dofile(MP.."/mobs/dragon.lua")
+	dofile(MP.."/mobs/skull.lua")
+	dofile(MP.."/mobs/cacodemon.lua")
+	dofile(MP.."/mobs/mogall.lua")
+	dofile(MP.."/mobs/shadow.lua")
+	dofile(MP.."/mobs/mothman.lua")
+	dofile(MP.."/mobs/manticore.lua")
+	dofile(MP.."/mobs/imp.lua")
+	dofile(MP.."/mobs/werewolf.lua")
+	dofile(MP.."/mobs/mancubus.lua")
+	dofile(MP.."/mobs/birdie.lua")
+	dofile(MP.."/mobs/pinky.lua")
+	dofile(MP.."/mobs/demon.lua")
+	dofile(MP.."/mobs/armor.lua")
+	dofile(MP.."/mobs/sam.lua")
 end
 
 --flint and steel override(not included in the license since it's only changing the node placed)
