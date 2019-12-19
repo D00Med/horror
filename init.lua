@@ -36,7 +36,7 @@ if minetest.get_modpath("mobs") then
 	dofile(MP.."/mobs/birdie.lua")
 	dofile(MP.."/mobs/pinky.lua")
 	dofile(MP.."/mobs/demon.lua")
-	dofile(MP.."/mobs/armor.lua")
+	dofile(MP.."/mobs/armour.lua")
 	dofile(MP.."/mobs/sam.lua")
 end
 
